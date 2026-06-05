@@ -28,6 +28,48 @@
             top: 0;
             z-index: 100;
         }
+        /* Bandeau défilant */
+.top-banner {
+    background: linear-gradient(135deg, #ff3d00, #ff6b00);
+    color: white;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 12px 0;
+    position: relative;
+    z-index: 1001;
+    border-bottom: 2px solid #ffcc00;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.scrolling-message {
+    display: inline-block;
+    animation: scrollText 20s linear infinite;
+    font-weight: bold;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+}
+
+@keyframes scrollText {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* Optionnel : arrêter l'animation au survol */
+.top-banner:hover .scrolling-message {
+    animation-play-state: paused;
+}
+
+/* Responsive pour mobiles */
+@media (max-width: 768px) {
+    .scrolling-message {
+        font-size: 11px;
+        animation-duration: 15s;
+    }
+}
 
         .header-top {
             display: flex;
@@ -578,6 +620,12 @@
     </style>
 </head>
 <body>
+    <!-- Bandeau d'information défilant -->
+<div class="top-banner">
+    <div class="scrolling-message">
+        ⚠️ INFORMATION IMPORTANTE : Notre site est encore en construction. Tous les produits ne sont pas encore ajoutés. Nous nous excusons pour la gêne occasionnée. Merci de votre compréhension ! ⚠️
+    </div>
+</div>
     <!-- Header -->
     <header>
         <div class="header-top">
