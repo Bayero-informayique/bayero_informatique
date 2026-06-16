@@ -1,990 +1,943 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BAYERO INFORMATIQUE - Votre boutique tech</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: #f5f5f5;
-            color: #333;
-        }
-
-        header {
-            background: linear-gradient(135deg, #ff6b00, #ff3d00);
-            color: white;
-            padding: 15px 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .top-banner {
-            background: linear-gradient(135deg, #ff3d00, #ff6b00);
-            color: white;
-            overflow: hidden;
-            white-space: nowrap;
-            padding: 12px 0;
-            position: relative;
-            z-index: 1001;
-            border-bottom: 2px solid #ffcc00;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-
-        .scrolling-message {
-            display: inline-block;
-            animation: scrollText 25s linear infinite;
-            font-weight: bold;
-            font-size: 15px;
-            letter-spacing: 0.5px;
-        }
-
-        @keyframes scrollText {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-
-        .top-banner:hover .scrolling-message {
-            animation-play-state: paused;
-        }
-
-        @media (max-width: 768px) {
-            .scrolling-message {
-                font-size: 11px;
-                animation-duration: 15s;
-            }
-        }
-
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .logo {
-            font-size: 28px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-        }
-
-        .logo span {
-            color: #003366;
-            background: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            margin-left: 8px;
-        }
-
-        .search-bar {
-            flex-grow: 1;
-            max-width: 600px;
-            margin: 0 20px;
-        }
-
-        .search-bar input {
-            width: 100%;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 30px;
-            font-size: 16px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .user-actions a {
-            color: white;
-            text-decoration: none;
-            margin-left: 20px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .banner {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            text-align: center;
-            padding: 80px 20px;
-            margin-bottom: 30px;
-        }
-
-        .banner h1 {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-        }
-
-        .banner p {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto 25px;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background: #ff6b00;
-            color: white;
-            padding: 15px 40px;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            transition: transform 0.3s, background 0.3s;
-        }
-
-        .cta-button:hover {
-            background: #ff3d00;
-            transform: scale(1.05);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            margin: 40px 0 20px;
-            color: #003366;
-            border-left: 5px solid #ff6b00;
-            padding-left: 15px;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 50px;
-        }
-
-        .product-card {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: transform 0.3s, box-shadow 0.3s;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-        }
-
-        .product-image {
-            height: 220px;
-            background-color: #f8f8f8;
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            transition: all 0.3s ease;
-            border-bottom: 1px solid #eee;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .product-image:hover {
-            opacity: 0.9;
-        }
-
-        .product-image:hover::after {
-            content: "🔍 Cliquer pour voir les détails";
-            position: absolute;
-            bottom: 10px;
-            left: 0;
-            right: 0;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            text-align: center;
-            padding: 5px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .image-placeholder {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            width: 100%;
-            font-size: 48px;
-            color: #003366;
-            background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
-            transition: opacity 0.3s ease;
-        }
-
-        .product-info {
-            padding: 20px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .product-brand {
-            color: #ff6b00;
-            font-weight: bold;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-        }
-
-        .product-name {
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            color: #003366;
-            line-height: 1.3;
-        }
-
-        .product-description {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-            line-height: 1.4;
-            flex: 1;
-        }
-
-        .whatsapp-btn {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #25D366, #128C7E);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.3s;
-            margin-top: auto;
-        }
-
-        .whatsapp-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.8);
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-content {
-            background-color: white;
-            margin: 5% auto;
-            padding: 0;
-            width: 90%;
-            max-width: 600px;
-            border-radius: 15px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-            animation: slideDown 0.4s ease;
-            position: relative;
-        }
-
-        @keyframes slideDown {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .modal-header {
-            background: linear-gradient(135deg, #ff6b00, #ff3d00);
-            color: white;
-            padding: 20px;
-            border-radius: 15px 15px 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-header h2 {
-            margin: 0;
-            font-size: 1.5rem;
-        }
-
-        .close-modal {
-            color: white;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 30px;
-        }
-
-        .close-modal:hover {
-            transform: scale(1.1);
-        }
-
-        .modal-body {
-            padding: 25px;
-            max-height: 70vh;
-            overflow-y: auto;
-        }
-
-        .modal-image {
-            text-align: center;
-            margin-bottom: 20px;
-            background: #f5f5f5;
-            border-radius: 10px;
-            padding: 20px;
-        }
-
-        .modal-image .modal-img-placeholder {
-            font-size: 80px;
-        }
-
-        .detail-item {
-            display: flex;
-            padding: 12px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .detail-label {
-            font-weight: bold;
-            width: 120px;
-            color: #003366;
-        }
-
-        .detail-value {
-            flex: 1;
-            color: #333;
-        }
-
-        .modal-whatsapp {
-            width: 100%;
-            padding: 15px;
-            background: #25D366;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.3s;
-            margin-top: 20px;
-        }
-
-        .modal-whatsapp:hover {
-            background: #128C7E;
-            transform: scale(1.02);
-        }
-
-        .marques-section {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            margin-bottom: 40px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-
-        .marques-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 20px;
-            justify-content: center;
-        }
-
-        .marque-btn {
-            padding: 10px 20px;
-            background: #f0f0f0;
-            border: none;
-            border-radius: 25px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.9rem;
-        }
-
-        .marque-btn:hover {
-            background: #003366;
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .marque-btn.active {
-            background: #ff6b00;
-            color: white;
-        }
-
-        .filters {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            padding: 10px 20px;
-            background: white;
-            border: 2px solid #003366;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s;
-            font-size: 0.9rem;
-        }
-
-        .filter-btn:hover {
-            background: #003366;
-            color: white;
-        }
-
-        .filter-btn.active {
-            background: #003366;
-            color: white;
-        }
-
-        footer {
-            background: #003366;
-            color: white;
-            padding: 40px 20px;
-            margin-top: 60px;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .footer-section h3 {
-            color: #ff6b00;
-            margin-bottom: 20px;
-            font-size: 1.3rem;
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section ul li {
-            margin-bottom: 10px;
-        }
-
-        .footer-section a {
-            color: #ddd;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-section a:hover {
-            color: #ff6b00;
-        }
-
-        .copyright {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            color: #aaa;
-        }
-
-        @media (max-width: 768px) {
-            .header-top {
-                flex-direction: column;
-                text-align: center;
-                gap: 15px;
-            }
-            
-            .search-bar {
-                margin: 0;
-                width: 100%;
-                max-width: 100%;
-            }
-            
-            .banner h1 {
-                font-size: 2rem;
-            }
-            
-            .detail-label {
-                width: 100px;
-            }
-            
-            .modal-content {
-                margin: 10% auto;
-                width: 95%;
-            }
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BAYERO INFORMATIQUE - Vente de matériel informatique</title>
+<meta name="description" content="BAYERO INFORMATIQUE - Vente en ligne d'ordinateurs, accessoires et matériel informatique. Contactez-nous sur WhatsApp." />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --primary: #0a2540;
+    --accent: #ff6b1a;
+    --bg: #f7f9fc;
+    --card: #ffffff;
+    --text: #1a1a1a;
+    --muted: #5b6b7d;
+    --whatsapp: #25d366;
+    --shadow: 0 8px 24px rgba(10,37,64,0.08);
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--primary);
+    color: #fff;
+    padding: 16px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+  }
+  .logo span { color: var(--accent); }
+  nav a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0a2540 0%, #1a4d8f 100%);
+    color: #fff;
+    padding: 80px 24px;
+    text-align: center;
+  }
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: 16px;
+  }
+  .hero p {
+    font-size: 1.15rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto 28px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: #fff;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,107,26,0.4); }
+  .btn-wa { background: var(--whatsapp); }
+  .btn-wa:hover { box-shadow: 0 8px 20px rgba(37,211,102,0.4); }
+
+  /* SECTIONS */
+  section { padding: 60px 24px; }
+  .container { max-width: 1200px; margin: 0 auto; }
+  .section-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 12px;
+    color: var(--primary);
+  }
+  .section-sub {
+    text-align: center;
+    color: var(--muted);
+    margin-bottom: 40px;
+  }
+
+  /* CATEGORIES FILTER */
+  .search-bar {
+    max-width: 560px;
+    margin: 0 auto 20px;
+    position: relative;
+  }
+  .search-bar input {
+    width: 100%;
+    padding: 14px 44px 14px 18px;
+    border: 2px solid #e0e6ed;
+    border-radius: 30px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: #fff;
+  }
+  .search-bar input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(255,107,26,0.15);
+  }
+  .search-bar::after {
+    content: "🔍";
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+  .no-results {
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted);
+    font-size: 1.1rem;
+  }
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+  .filter-btn {
+    padding: 8px 18px;
+    border: 2px solid var(--primary);
+    background: transparent;
+    color: var(--primary);
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .filter-btn.active, .filter-btn:hover {
+    background: var(--primary);
+    color: #fff;
+  }
+
+  /* PRODUCTS GRID */
+  .products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 24px;
+  }
+  .product {
+    background: var(--card);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.25s, box-shadow 0.25s;
+    display: flex;
+    flex-direction: column;
+  }
+  .product:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 32px rgba(10,37,64,0.15);
+  }
+  .product-img {
+    height: 200px;
+    background: #eef2f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    overflow: hidden;
+  }
+  .product-img img { width:100%; height:100%; object-fit:contain; padding:10px; }
+  .product-body {
+    padding: 18px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .product h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: var(--primary);
+  }
+  .product p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+    flex: 1;
+  }
+  .product .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 10px;
+    font-size: 0.95rem;
+  }
+
+  /* ABOUT */
+  .about {
+    background: #fff;
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    margin-top: 30px;
+  }
+  .feature {
+    text-align: center;
+    padding: 24px;
+  }
+  .feature .icon {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+  }
+  .feature h4 { color: var(--primary); margin-bottom: 8px; }
+  .feature p { color: var(--muted); font-size: 0.95rem; }
+
+  /* CONTACT */
+  .contact {
+    background: var(--primary);
+    color: #fff;
+    text-align: center;
+  }
+  .contact h2 { color: #fff; }
+  .contact .section-sub { color: rgba(255,255,255,0.8); }
+  .contact-info {
+    margin-top: 24px;
+    font-size: 1.1rem;
+  }
+  .contact-info p { margin: 8px 0; }
+
+  /* FOOTER */
+  footer {
+    background: #06192e;
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    padding: 24px;
+    font-size: 0.9rem;
+  }
+
+  /* FLOATING WHATSAPP */
+  .wa-float {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 60px;
+    height: 60px;
+    background: var(--whatsapp);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 20px rgba(37,211,102,0.5);
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.8rem;
+    z-index: 200;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+  }
+
+  /* RESPONSIVE — MOBILE */
+  @media (max-width: 768px) {
+    header { padding: 12px 16px; }
+    .header-inner { justify-content: center; text-align: center; }
+    .logo { font-size: 1.25rem; width: 100%; }
+    nav { width: 100%; text-align: center; }
+    nav a { margin: 0 10px; font-size: 0.95rem; }
+
+    .hero { padding: 50px 16px; }
+    .hero p { font-size: 1rem; }
+
+    section { padding: 40px 16px; }
+    .section-title { font-size: 1.5rem; }
+
+    .filters { gap: 8px; }
+    .filter-btn { padding: 8px 14px; font-size: 0.85rem; }
+
+    .products { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)) !important; gap: 14px; }
+    .product-img { height: 150px; }
+    .product-body { padding: 12px; }
+    .product h3 { font-size: 0.95rem; }
+    .product p { font-size: 0.8rem; margin-bottom: 10px; }
+    .product .btn { padding: 8px; font-size: 0.85rem; }
+
+    .wa-float { width: 52px; height: 52px; font-size: 1.5rem; bottom: 16px; right: 16px; }
+
+    .search-bar input { padding: 12px 40px 12px 16px; font-size: 0.95rem; }
+  }
+
+  @media (max-width: 380px) {
+    .products { grid-template-columns: 1fr !important; }
+    .product-img { height: 200px; }
+    nav a { margin: 0 6px; font-size: 0.85rem; }
+  }
+
+  /* ===== ADMIN PANEL ===== */
+  .admin-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    z-index: 9999; display: none; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .admin-overlay.active { display: flex; }
+  .admin-modal {
+    background: #fff; border-radius: 12px; width: 100%; max-width: 1100px;
+    max-height: 92vh; overflow: hidden; display: flex; flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+  .admin-header {
+    background: var(--primary); color: #fff; padding: 16px 20px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .admin-header h2 { font-size: 1.2rem; }
+  .admin-close {
+    background: var(--accent); color: #fff; border: none; padding: 8px 14px;
+    border-radius: 6px; cursor: pointer; font-weight: 600;
+  }
+  .admin-toolbar {
+    padding: 12px 20px; background: #f0f4f9; display: flex; gap: 8px;
+    flex-wrap: wrap; border-bottom: 1px solid #e0e6ee;
+  }
+  .admin-toolbar button {
+    background: var(--primary); color: #fff; border: none; padding: 8px 14px;
+    border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600;
+  }
+  .admin-toolbar button.btn-add { background: #16a34a; }
+  .admin-toolbar button.btn-export { background: #2563eb; }
+  .admin-toolbar button.btn-reset { background: #dc2626; }
+  .admin-toolbar input[type="search"] {
+    flex: 1; min-width: 200px; padding: 8px 12px; border: 1px solid #cbd5e1;
+    border-radius: 6px; font-size: 0.9rem;
+  }
+  .admin-body {
+    overflow-y: auto; padding: 16px 20px; flex: 1;
+  }
+  .admin-row {
+    display: grid; grid-template-columns: 80px 1fr 1fr 2fr 140px 90px;
+    gap: 10px; align-items: center; padding: 10px;
+    border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 8px;
+    background: #fafbfc;
+  }
+  .admin-row img {
+    width: 70px; height: 70px; object-fit: cover; border-radius: 6px;
+    background: #e2e8f0; cursor: pointer;
+  }
+  .admin-row input, .admin-row textarea, .admin-row select {
+    width: 100%; padding: 6px 8px; border: 1px solid #cbd5e1;
+    border-radius: 4px; font-size: 0.85rem; font-family: inherit;
+  }
+  .admin-row textarea { resize: vertical; min-height: 50px; }
+  .admin-row .img-controls { display: flex; flex-direction: column; gap: 4px; }
+  .admin-row .img-controls button {
+    background: #64748b; color: #fff; border: none; padding: 4px 8px;
+    border-radius: 4px; cursor: pointer; font-size: 0.75rem;
+  }
+  .admin-row .btn-del {
+    background: #dc2626; color: #fff; border: none; padding: 8px;
+    border-radius: 6px; cursor: pointer; font-weight: 600;
+  }
+  .admin-status {
+    padding: 8px 20px; background: #ecfdf5; color: #065f46;
+    font-size: 0.85rem; border-top: 1px solid #d1fae5;
+  }
+  .admin-login {
+    background: #fff; padding: 30px; border-radius: 12px; width: 100%;
+    max-width: 360px; text-align: center;
+  }
+  .admin-login h3 { margin-bottom: 16px; color: var(--primary); }
+  .admin-login input {
+    width: 100%; padding: 12px; border: 1px solid #cbd5e1;
+    border-radius: 6px; font-size: 1rem; margin-bottom: 12px;
+  }
+  .admin-login button {
+    width: 100%; padding: 12px; background: var(--primary); color: #fff;
+    border: none; border-radius: 6px; cursor: pointer; font-weight: 600;
+  }
+  .admin-hint {
+    position: fixed; bottom: 8px; left: 8px; font-size: 0.7rem;
+    color: #94a3b8; opacity: 0.5; z-index: 50;
+  }
+  @media (max-width: 768px) {
+    .admin-row {
+      grid-template-columns: 70px 1fr 80px;
+      grid-template-areas:
+        "img name del"
+        "img cat del"
+        "desc desc desc"
+        "imgctrl imgctrl imgctrl";
+    }
+    .admin-row img { grid-area: img; }
+    .admin-row .col-name { grid-area: name; }
+    .admin-row .col-cat { grid-area: cat; }
+    .admin-row .col-desc { grid-area: desc; }
+    .admin-row .img-controls { grid-area: imgctrl; flex-direction: row; }
+    .admin-row .btn-del { grid-area: del; }
+  }
+</style>
 </head>
 <body>
-    <div class="top-banner">
-        <div class="scrolling-message">
-            ⚠️ INFORMATION IMPORTANTE : Notre site est en construction. Tous les produits et Leurs Images ne sont pas encore ajoutés . Nous nous excusons pour la gêne occasionnée. Merci de votre compréhension ! ⚠️
-        </div>
-    </div>
-    
-    <header>
-        <div class="header-top">
-            <div class="logo">
-                BAYERO <span>INFORMATIQUE</span>
-            </div>
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="🔍 Rechercher un produit, une marque...">
-            </div>
-            <div class="user-actions">
-                <a href="https://wa.me/2250160435955" target="_blank">
-                    <i class="fab fa-whatsapp"></i> WhatsApp
-                </a>
-            </div>
-        </div>
-    </header>
 
-    <section class="banner">
-        <h1>Bienvenue sur notre boutique en ligne</h1>
-        <p>Cliquez sur n'importe quelle image de produit pour voir tous les détails !</p>
-        <a href="#products" class="cta-button">Voir les produits</a>
-    </section>
+<header>
+  <div class="header-inner">
+    <div class="logo">BAYERO <span>INFORMATIQUE</span></div>
+    <nav>
+      <a href="#produits">Produits</a>
+      <a href="#apropos">À propos</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
 
-    <div class="container">
-        <div class="filters">
-            <button class="filter-btn active" data-category="">Tous les produits</button>
-            <button class="filter-btn" data-category="Ordinateurs Portables">Portables</button>
-            <button class="filter-btn" data-category="Ordinateurs de Bureau">Bureau</button>
-            <button class="filter-btn" data-category="Imprimantes">Imprimantes</button>
-            <button class="filter-btn" data-category="Écrans">Écrans</button>
-            <button class="filter-btn" data-category="Serveurs">Serveurs</button>
-            <button class="filter-btn" data-category="Switchs">Switchs</button>
-            <button class="filter-btn" data-category="Scanners">Scanners</button>
-            <button class="filter-btn" data-category="Projecteurs">Projecteurs</button>
-            <button class="filter-btn" data-category="Téléphonie IP">Téléphonie</button>
-            <button class="filter-btn" data-category="Téléphones IP">Téléphones IP</button>
-            <button class="filter-btn" data-category="Accessoires">Accessoires</button>
-            <button class="filter-btn" data-category="Routeurs">Routeurs</button>
-            <button class="filter-btn" data-category="Point d'accès">Points d'accès</button>
-        </div>
+<section class="hero">
+  <h1>Votre partenaire informatique de confiance</h1>
+  <p>Découvrez notre sélection d'ordinateurs, accessoires et matériel informatique de qualité. Commandez directement via WhatsApp.</p>
+  <a href="https://wa.me/2250160435955" target="_blank" class="btn btn-wa">📱 Commander sur WhatsApp</a>
+</section>
 
-        <h2 class="section-title" id="products">NOS PRODUITS</h2>
-        <div class="products-grid" id="productsGrid"></div>
+<section id="produits">
+  <div class="container">
+    <h2 class="section-title">Nos Produits</h2>
+    <p class="section-sub">Cliquez sur un produit pour commander via WhatsApp</p>
 
-        <div class="marques-section">
-            <h2 class="section-title">FILTRER PAR MARQUE</h2>
-            <div class="marques-grid" id="marquesGrid"></div>
-        </div>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Rechercher un produit par nom ou catégorie..." autocomplete="off">
     </div>
 
-    <div id="productModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Détails du produit</h2>
-                <button class="close-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="modal-image" id="modalImage">
-                    <div class="modal-img-placeholder" id="modalPlaceholder">📦</div>
-                </div>
-                <div id="modalDetails"></div>
-                <button class="modal-whatsapp" id="modalWhatsappBtn">
-                    <i class="fab fa-whatsapp"></i> Contacter via WhatsApp
-                </button>
-            </div>
-        </div>
+    <div class="filters" id="filters">
+      <button class="filter-btn active" data-cat="all">Tous</button>
+      <button class="filter-btn" data-cat="Accessoires">Accessoires</button>
+      <button class="filter-btn" data-cat="Accessoires Réseau">Accessoires Réseau</button>
+      <button class="filter-btn" data-cat="Audio IP">Audio IP</button>
+      <button class="filter-btn" data-cat="Caméras">Caméras</button>
+      <button class="filter-btn" data-cat="Contrôleur WiFi">Contrôleur WiFi</button>
+      <button class="filter-btn" data-cat="Imprimantes">Imprimantes</button>
+      <button class="filter-btn" data-cat="Ordinateurs Portables">Ordinateurs Portables</button>
+      <button class="filter-btn" data-cat="Ordinateurs de Bureau">Ordinateurs de Bureau</button>
+      <button class="filter-btn" data-cat="Point d'accès">Point d'accès</button>
+      <button class="filter-btn" data-cat="Projecteurs">Projecteurs</button>
+      <button class="filter-btn" data-cat="Routeurs">Routeurs</button>
+      <button class="filter-btn" data-cat="Scanners">Scanners</button>
+      <button class="filter-btn" data-cat="Serveurs">Serveurs</button>
+      <button class="filter-btn" data-cat="Switchs">Switchs</button>
+      <button class="filter-btn" data-cat="Téléphones IP">Téléphones IP</button>
+      <button class="filter-btn" data-cat="Téléphonie IP">Téléphonie IP</button>
+      <button class="filter-btn" data-cat="Écrans">Écrans</button>
     </div>
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>BAYERO INFORMATIQUE</h3>
-                <p>Votre partenaire technologique de confiance. Produits neufs garantis, livraison rapide, support technique.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Contact</h3>
-                <p><i class="fab fa-whatsapp"></i> WhatsApp: +225 01 60 43 59 55</p>
-                <p><i class="far fa-envelope"></i> Email: bayeroinformatiqueci@gmail.com</p>
-            </div>
-            <div class="footer-section">
-                <h3>Horaires</h3>
-                <p>Lun-Sam: 8h-18h</p>
-                <p>Dimanche: Fermé</p>
-            </div>
+    <div class="products" id="products"></div>
+  </div>
+</section>
+
+<section id="apropos" class="about">
+  <div class="container">
+    <h2 class="section-title">Pourquoi nous choisir ?</h2>
+    <p class="section-sub">Votre satisfaction est notre priorité</p>
+    <div class="about-grid">
+      <div class="feature">
+        <div class="icon">✅</div>
+        <h4>Produits de qualité</h4>
+        <p>Matériel sélectionné avec soin auprès de marques reconnues.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">🚚</div>
+        <h4>Livraison rapide</h4>
+        <p>Recevez vos commandes dans les meilleurs délais.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">💬</div>
+        <h4>Service client</h4>
+        <p>Une équipe à votre écoute via WhatsApp pour tous vos besoins.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">🔧</div>
+        <h4>Conseils experts</h4>
+        <p>Nous vous aidons à choisir le matériel adapté à vos besoins.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact">
+  <div class="container">
+    <h2 class="section-title">Contactez-nous</h2>
+    <p class="section-sub">Nous sommes disponibles pour répondre à toutes vos questions</p>
+    <div class="contact-info">
+      <p>📱 WhatsApp : <strong>+225 01 60 43 5955</strong></p>
+      <p>🏢 BAYERO INFORMATIQUE</p>
+    </div>
+    <div style="margin-top:24px;">
+      <a href="https://wa.me/2250160435955" target="_blank" class="btn btn-wa">💬 Discuter sur WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 BAYERO INFORMATIQUE - Tous droits réservés</p>
+</footer>
+
+<a href="https://wa.me/2250160435955" target="_blank" class="wa-float" title="Contactez-nous sur WhatsApp">💬</a>
+
+<!-- ===== ADMIN PANEL ===== -->
+<div class="admin-hint">Ctrl+Shift+A</div>
+
+<div class="admin-overlay" id="adminLogin">
+  <div class="admin-login">
+    <h3>🔐 Espace administrateur</h3>
+    <input type="password" id="adminPass" placeholder="Mot de passe" />
+    <button id="adminLoginBtn">Se connecter</button>
+  </div>
+</div>
+
+<div class="admin-overlay" id="adminPanel">
+  <div class="admin-modal">
+    <div class="admin-header">
+      <h2>⚙️ Gestion des produits</h2>
+      <button class="admin-close" id="adminCloseBtn">Fermer</button>
+    </div>
+    <div class="admin-toolbar">
+      <button class="btn-add" id="adminAddBtn">➕ Ajouter un produit</button>
+      <button class="btn-export" id="adminExportBtn">⬇️ Exporter (JSON)</button>
+      <button id="adminImportBtn">⬆️ Importer (JSON)</button>
+      <input type="file" id="adminImportFile" accept="application/json" style="display:none">
+      <button class="btn-reset" id="adminResetBtn">🔄 Réinitialiser</button>
+      <input type="search" id="adminSearch" placeholder="🔍 Filtrer les produits...">
+    </div>
+    <div class="admin-body" id="adminBody"></div>
+    <div class="admin-status" id="adminStatus">✅ Modifications enregistrées automatiquement dans ce navigateur.</div>
+  </div>
+</div>
+<input type="file" id="adminImgFile" accept="image/*" style="display:none">
+
+<script>
+  const WHATSAPP = "2250160435955";
+
+  const products = [
+    { name: "Canon PIXMA G3410", cat: "Imprimantes", icon: "🖨️", image: "https://cdn.idealo.com/folder/Product/202783/8/202783887/s4_produktbild_gross_2/canon-pixma-g3410.jpg", desc: "Imprimante multifonction réservoir d'encre, impression/scanner/copie, Wi-Fi" },
+    { name: "Lenovo ThinkBook 14 G7", cat: "Ordinateurs Portables", icon: "💻", image: "https://media.rueducommerce.fr/r1200/ld/products/00/06/07/70/LD0006077061_0006143814_0006145415.jpg", desc: "Portable Lenovo ThinkBook 14 G7, Ultra 7-155H, 8GB RAM, 512GB SSD" },
+    { name: "Lenovo ThinkPad E16 G1", cat: "Ordinateurs Portables", icon: "💻", image: "https://www.voomstore.ci/65237-large_default/portable-lenovo-thinkpad-e16-g1-i5-1335u-8g-512gb-ssd-nos-2y-cci-20w1s55500.jpg", desc: "Portable Lenovo ThinkPad E16 G1, i5-13420H, 8GB RAM, 512GB SSD" },
+    { name: "HP 15-fd0229nia", cat: "Ordinateurs Portables", icon: "💻", image: "https://puresolutions.ma/wp-content/uploads/2024/01/Nouveau-projet-2024-01-30T161809.321-510x510.webp", desc: "Portable HP 15, i7-1355U, 8GB RAM, 512GB SSD, écran 15.6\" Full HD" },
+    { name: "Acer X1329WHP", cat: "Projecteurs", icon: "📽️", image: "https://www.bigbaazaaru.mv/wp-content/uploads/2024/07/IkKTyMBb1658825526-480x380.png", desc: "Projecteur Acer X1329WHP, 4800 lumens, résolution WXGA, compatible Full HD" },
+    { name: "Zebra ZD621T", cat: "Imprimantes", icon: "🖨️", image: "https://www.printerbase.co.uk/media/catalog/product/cache/da0d4b41a2735aaf1e00b4dd4990980e/z/e/zebra-zd420a_2_1_9_3.jpg", desc: "Imprimante d'étiquettes de bureau Zebra ZD621T, impression thermique transfert" },
+    { name: "Canon imageRUNNER 3326i", cat: "Imprimantes", icon: "🖨️", image: "https://cdn.media.amplience.net/i/canon/imagerunner-c3326i-frt_range-page_2d821de297544f918e1924b1e1232bbf?$support-hero-header$", desc: "Copieur multifonction Canon ImageRUNNER 3326i, impression/copie/numérisation" },
+    { name: "HP Pro 3600 F1", cat: "Scanners", icon: "📄", image: "https://hp.widen.net/content/udktz8twhi/png/udktz8twhi.png?w=800&h=600&dpi=72&color=ffffff00", desc: "Scanner professionnel HP Pro 3600 F1, numérisation recto-verso automatique" },
+    { name: "HP Pro N4600 Fnw1", cat: "Scanners", icon: "📄", image: "https://hp.widen.net/content/ndzhonakz8/png/ndzhonakz8.png?w=800&h=600&dpi=72&color=ffffff00", desc: "Scanner réseau HP Pro N4600 Fnw1, haute vitesse, alimentation automatique" },
+    { name: "HP Pro 2600 F1", cat: "Scanners", icon: "📄", image: "https://hp.widen.net/content/zijsar8amq/png/zijsar8amq.png?w=800&h=600&dpi=72&color=ffffff00", desc: "Scanner professionnel HP Pro 2600 F1, compact, recto-verso automatique" },
+    { name: "Epson WorkForce DS-1630", cat: "Scanners", icon: "📄", image: "https://i8.amplience.net/i/epsonemear/20467-productpicture-lores-en-ds-1630_main?$product-xlarge$&fmt=auto", desc: "Scanner de documents Epson WorkForce DS-1630, alimentation automatique" },
+    { name: "Epson DS530", cat: "Scanners", icon: "📄", image: "https://www.ntc-tech.com/cdn/shop/products/vZtU2UWFg8TKgGv79xPe0oqNZpuqljSEdwgwrud5i3SY8pglihidv6s6wMMe4KIFJsQhPd3ODEPN03Xiv_8ffhgC1pQL6rs_s4470.jpg?v=1707849215&width=1445", desc: "Scanner compact Epson DS530, portable, alimentation automatique" },
+    { name: "Epson Workforce DS870", cat: "Scanners", icon: "📄", image: "https://www.startech.com.bd/image/cache/catalog/scanner/epson/ds-870/ds-870-01-500x500.webp", desc: "Scanner haut de gamme Epson Workforce DS870, vitesse élevée" },
+    { name: "Epson Perfection V39II", cat: "Scanners", icon: "📄", image: "https://mediaserver.goepson.com/ImConvServlet/imconv/ec4242888a461054d142031212949d640bac3412/1200Wx1200H?use=banner&hybrisId=B2C&assetDescr=V39II-%281%29", desc: "Scanner à plat Epson Perfection V39II, haute résolution 4800 dpi" },
+    { name: "Cisco C9200L-24P-4G-E", cat: "Switchs", icon: "🔌", image: "https://www.telquestintl.com/site/images/products/C9200L-24P-4G-A-WS.Media-1.jpg?resizeid=5&resizeh=1200&resizew=1200", desc: "Switch Cisco Catalyst 9200L 24 ports PoE, 4 ports SFP" },
+    { name: "Cisco C9200L-48P-4G-A", cat: "Switchs", icon: "🔌", image: "https://amsi.ci/wp-content/uploads/2025/12/9200L.png", desc: "Switch Cisco Catalyst 9200L 48 ports PoE+, stackable" },
+    { name: "Cisco CBS350-24P-4G", cat: "Switchs", icon: "🔌", image: "https://media.router-switch.com/media/mf_webp/jpg/media/catalog/product/cache/b90fceee6a5fa7acd36a04c7b968181c/c/i/cisco-cbs350-24p-4g.webp", desc: "Switch Cisco Business 24 ports Gigabit PoE+, 4 ports SFP" },
+    { name: "HP ProLiant DL380 Gen10", cat: "Serveurs", icon: "🖥️", image: "https://th.bing.com/th/id/OIP.qdR_VFcMtcCovR-TPWWgXQHaEK?w=320&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Serveur rack HP ProLiant DL380 Gen10, Xeon Silver 4210R, 32GB RAM" },
+    { name: "Canon MAXIFY GX1020", cat: "Imprimantes", icon: "🖨️", image: "https://i.postimg.cc/jjhGbBZv/GX1020-Right-side-2.png", desc: "Imprimante multifonction Canon MAXIFY GX1020 MegaTank, impression, copie et numérisation avec réservoirs d'encre rechargeables" },
+    { name: "Canon MAXIFY GX2040", cat: "Imprimantes", icon: "🖨️", image: "https://djokstore.ci/cdn/shop/files/maxify-gx2040-fra_gallery_01_e2d55ed7bb4847739230fed211282ca7.avif?v=1779666212", desc: "Imprimante multifonction Canon MAXIFY GX2040 MegaTank, impression, copie, numérisation et fax avec Wi-Fi" },
+    { name: "Grandstream GRP2634", cat: "Téléphones IP", icon: "☎️", image: "https://www.grandstream.com/hubfs/Product%20Images/GRP/GRP2634/GRP2634_frontv2_web.png", desc: "Téléphone IP professionnel Grandstream GRP2634 avec écran couleur et support SIP" },
+    { name: "Grandstream GRP2636", cat: "Téléphones IP", icon: "☎️", image: "https://www.grandstream.com/hubfs/Product%20Images/GRP/GRP2636/GRP2636%202.png", desc: "Téléphone IP Grandstream GRP2636 haute performance pour entreprises" },
+    { name: "Grandstream GX2140", cat: "Téléphones IP", icon: "☎️", image: "https://www.grandstream.com/hubfs/Product%20Images/GXP/GXP2140/gxp2140_front.png", desc: "Téléphone IP Grandstream GX2140 avec écran couleur et fonctionnalités avancées" },
+    { name: "Dell Vostro 3030", cat: "Ordinateurs de Bureau", icon: "💻", image: "https://th.bing.com/th/id/OIP.jE29kPD_Ej7p9Z_tfFWcXgHaE8?w=269&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Tour bureau Dell Vostro 3030, i3-14100, 8GB RAM, 512GB SSD" },
+    { name: "Dell Optiplex 7020MT", cat: "Ordinateurs de Bureau", icon: "💻", image: "https://th.bing.com/th/id/OIP.jE29kPD_Ej7p9Z_tfFWcXgHaE8?w=269&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Tour bureau Dell Optiplex 7020MT, i5-12500, 8GB RAM, 512GB SSD" },
+    { name: "HP 260 G9 Mini", cat: "Ordinateurs de Bureau", icon: "💻", image: "https://th.bing.com/th/id/OIP.jE29kPD_Ej7p9Z_tfFWcXgHaE8?w=269&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Mini bureau HP 260 G9, i5 13ème génération, 16GB RAM, 512GB SSD" },
+    { name: "Lenovo L24e-40", cat: "Écrans", icon: "🖥️", image: "https://th.bing.com/th/id/OIP.4S-JU5b-DfOb5a4yH8lINAHaHa?w=207&h=207&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Écran LED Lenovo L24e-40 23.8\" Full HD, dalle IPS" },
+    { name: "Lenovo L27i-4A", cat: "Écrans", icon: "🖥️", image: "https://th.bing.com/th/id/OIP.4S-JU5b-DfOb5a4yH8lINAHaHa?w=207&h=207&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Écran LED Lenovo L27i-4A 27\" Full HD, dalle IPS" },
+    { name: "HP P22v G5", cat: "Écrans", icon: "🖥️", image: "https://th.bing.com/th/id/OIP.MW1ujLEyVkCv5I0ECWbscAHaHa?w=215&h=215&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Écran LED HP P22v G5 22\" Full HD, dalle IPS" },
+    { name: "Dell S2725H", cat: "Écrans", icon: "🖥️", image: "https://th.bing.com/th/id/OIP.weH7EDe0RQgUVk59t_h1RgHaEK?w=303&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Écran LED Dell S2725H 27\" Full HD, dalle IPS" },
+    { name: "HP 32\" 532SF", cat: "Écrans", icon: "🖥️", image: "https://th.bing.com/th/id/OIP.MW1ujLEyVkCv5I0ECWbscAHaHa?w=215&h=215&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Écran LED HP 32\" 532SF, résolution QHD, dalle IPS" },
+    { name: "Panasonic KX-TES824CE", cat: "Téléphonie IP", icon: "📞", image: "https://th.bing.com/th/id/OIP.sduapn3ptQYzRPhMq80s4gHaHa?w=211&h=211&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Système téléphonique hybride Panasonic KX-TES824CE, 8 lignes" },
+    { name: "HP CS10 French", cat: "Accessoires", icon: "⌨️", image: "https://th.bing.com/th/id/OIP.8qUiwGk_9Q9CbVJz6bSUlgHaHa?w=212&h=212&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Clavier sans fil HP CS10, disposition française" },
+    { name: "MI TV Box S", cat: "Accessoires", icon: "📺", image: "https://th.bing.com/th/id/OIP.N6fV-6P3aYSpA_hVU-PZ0QHaEK?w=298&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Boîtier TV Mi Box S, Android TV, 4K HDR" },
+    { name: "HP Omnibook 5 Flip", cat: "Ordinateurs Portables", icon: "💻", image: "https://th.bing.com/th/id/OIP.YW7GNPUAYjfEeBOcw9fJDAHaEK?w=324&h=182&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "HP Omnibook 5 Flip 14-fp0023dx, écran tactile 14\", Windows 11" },
+    { name: "HP Spectre x360", cat: "Ordinateurs Portables", icon: "💻", image: "https://th.bing.com/th/id/OIP.YW7GNPUAYjfEeBOcw9fJDAHaEK?w=324&h=182&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "HP Spectre x360 14t-eu000, écran OLED 13.3\" tactile" },
+    { name: "HP EliteBook 830 G11", cat: "Ordinateurs Portables", icon: "💻", image: "https://th.bing.com/th/id/OIP.YW7GNPUAYjfEeBOcw9fJDAHaEK?w=324&h=182&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "HP EliteBook 830 G11, écran IPS WQXGA 13.3\", Windows 11 Pro" },
+    { name: "HP Omnibook X Flip", cat: "Ordinateurs Portables", icon: "💻", image: "https://th.bing.com/th/id/OIP.YW7GNPUAYjfEeBOcw9fJDAHaEK?w=324&h=182&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "HP Omnibook X Flip 14-fm0023dx, écran OLED tactile 14\"" },
+    { name: "HP Victus 15", cat: "Ordinateurs Portables", icon: "💻", image: "https://th.bing.com/th/id/OIP.YW7GNPUAYjfEeBOcw9fJDAHaEK?w=324&h=182&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "HP Victus 15-FA2701WM, RTX 4050 6GB, Windows 11" },
+    { name: "Dell Latitude 5540", cat: "Ordinateurs Portables", icon: "💻", image: "https://th.bing.com/th/id/OIP.Q6fK1iqWrggIBIY8DUxr7QHaE8?w=266&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Dell Latitude 5540, i5 13ème génération, 16GB RAM, 512GB SSD" },
+    { name: "Dell Latitude 13 5340", cat: "Ordinateurs Portables", icon: "💻", image: "https://th.bing.com/th/id/OIP.Q6fK1iqWrggIBIY8DUxr7QHaE8?w=266&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Dell Latitude 13 5340, écran 13.3\", Windows 11 Pro" },
+    { name: "Dell Latitude 3450", cat: "Ordinateurs Portables", icon: "💻", image: "https://th.bing.com/th/id/OIP.Q6fK1iqWrggIBIY8DUxr7QHaE8?w=266&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Dell Latitude 3450, i7-1355U, 16GB RAM, 512GB SSD" },
+    { name: "Dell Vostro 3530", cat: "Ordinateurs Portables", icon: "💻", image: "https://th.bing.com/th/id/OIP.Q6fK1iqWrggIBIY8DUxr7QHaE8?w=266&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Dell Vostro 3530, écran Full HD 15.6\", i7-1355U" },
+    { name: "Asus VivoBook X1504VA", cat: "Ordinateurs Portables", icon: "💻", image: "https://th.bing.com/th/id/OIP.e0okXp35vapA23FCS6U_pAHaEK?w=315&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Asus VivoBook X1504VA, i7-1355U, 8GB RAM, 512GB SSD" },
+    { name: "Asus TUF FX507VV", cat: "Ordinateurs Portables", icon: "💻", image: "https://th.bing.com/th/id/OIP.e0okXp35vapA23FCS6U_pAHaEK?w=315&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Asus TUF Gaming FX507VV, RTX 4060 8GB, Windows 11" },
+    { name: "Acer Aspire Lite", cat: "Ordinateurs Portables", icon: "💻", image: "https://th.bing.com/th/id/OIP.Q6fK1iqWrggIBIY8DUxr7QHaE8?w=266&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Acer Aspire Lite, i5-13500H, 8GB RAM, 512GB SSD" },
+    { name: "Acer Nitro V15", cat: "Ordinateurs Portables", icon: "💻", image: "https://th.bing.com/th/id/OIP.Q6fK1iqWrggIBIY8DUxr7QHaE8?w=266&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Acer Nitro V15 Gaming, RTX 5060 8GB, i9-13900H" },
+    { name: "HP 200 G4 AiO", cat: "Ordinateurs de Bureau", icon: "💻", image: "https://th.bing.com/th/id/OIP.Zl28XMPOX51U7zTqQX-jIAHaE8?w=247&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "HP All-in-One 200 G4, i5-1235U, 8GB RAM, 512GB SSD" },
+    { name: "HP 24-CR0039L", cat: "Ordinateurs de Bureau", icon: "💻", image: "https://th.bing.com/th/id/OIP.Zl28XMPOX51U7zTqQX-jIAHaE8?w=247&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "HP 24-CR0039L, écran tactile 23.8\", coque blanche" },
+    { name: "HP 27-CR0068NY", cat: "Ordinateurs de Bureau", icon: "💻", image: "https://th.bing.com/th/id/OIP.Zl28XMPOX51U7zTqQX-jIAHaE8?w=247&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "HP 27-CR0068NY, écran 27\", coque blanche" },
+    { name: "HP 24-CR0049NH", cat: "Ordinateurs de Bureau", icon: "💻", image: "https://th.bing.com/th/id/OIP.Zl28XMPOX51U7zTqQX-jIAHaE8?w=247&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "HP 24-CR0049NH, écran Full HD 24\", couleur noire" },
+    { name: "Epson EcoTank L18050", cat: "Imprimantes", icon: "🖨️", image: "https://th.bing.com/th/id/OIP.dCmg64e-kPgs7F8v_QNQRQHaHa?w=218&h=218&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Imprimante Epson EcoTank L18050, réservoir d'encre, format extra large" },
+    { name: "Epson TMT20II", cat: "Imprimantes", icon: "🖨️", image: "https://th.bing.com/th/id/OIP.dCmg64e-kPgs7F8v_QNQRQHaHa?w=218&h=218&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Imprimante de tickets Epson TMT20II, thermique, impression rapide" },
+    { name: "Canon i-SENSYS LBP6030B", cat: "Imprimantes", icon: "🖨️", image: "https://th.bing.com/th/id/OIP.dCmg64e-kPgs7F8v_QNQRQHaHa?w=218&h=218&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Imprimante laser Canon i-SENSYS LBP6030B, monochrome" },
+    { name: "Canon i-SENSYS MF275dw", cat: "Imprimantes", icon: "🖨️", image: "https://th.bing.com/th/id/OIP.dCmg64e-kPgs7F8v_QNQRQHaHa?w=218&h=218&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Imprimante multifonction Canon i-SENSYS MF275dw, laser, WiFi" },
+    { name: "Mikrotik RB951Ui-2HnD", cat: "Routeurs", icon: "📡", image: "https://th.bing.com/th/id/OIP.-9sWev3e7C58-aUYDbIAvwHaE7?w=290&h=193&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Routeur Mikrotik RB951Ui-2HnD, 5 ports Gigabit, WiFi N" },
+    { name: "Logitech H390", cat: "Accessoires", icon: "🎧", image: "https://th.bing.com/th/id/OIP.4S-JU5b-DfOb5a4yH8lINAHaHa?w=207&h=207&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Casque audio Logitech H390, microphone intégré, USB" },
+    { name: "HP Color LaserJet Pro 3303fdw", cat: "Imprimantes", icon: "🖨️", image: "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c08545807.png", desc: "Imprimante multifonction HP LaserJet Pro 3303fdw, impression, copie, numérisation et fax avec Wi-Fi" },
+    { name: "HP LaserJet Pro 4103dw", cat: "Imprimantes", icon: "🖨️", image: "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c08028307.png", desc: "Imprimante HP LaserJet Pro 4103dw monochrome avec impression recto-verso automatique et Wi-Fi" },
+    { name: "Fanvil X303P", cat: "Téléphonie IP", icon: "📞", image: "https://cdn.store-assets.com/s/337542/i/70618265.png", desc: "Téléphone IP Fanvil X303P, 2 lignes SIP, écran LCD, PoE, HD audio" },
+    { name: "HP Color LaserJet Pro 4303fdw", cat: "Imprimantes", icon: "🖨️", image: "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c08179306.png", desc: "Imprimante multifonction couleur HP LaserJet Pro 4303fdw avec Wi-Fi, scanner et fax" },
+    { name: "HP LaserJet MFP M141a", cat: "Imprimantes", icon: "🖨️", image: "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c06921554.png", desc: "Imprimante multifonction HP LaserJet MFP M141a compacte, impression, copie et numérisation" },
+    { name: "HP LaserJet M111a", cat: "Imprimantes", icon: "🖨️", image: "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c06921490.png", desc: "Imprimante HP LaserJet M111a compacte monochrome pour bureau et domicile" },
+    { name: "TP-Link Amoda EAP110-Outdoor", cat: "Point d'accès", icon: "📶", image: "https://static.tp-link.com/upload/image-line/EAP225-Outdoor_normal_20230821084232j.png", desc: "Point d'accès WiFi extérieur TP-Link EAP110-Outdoor, IP65, 300 Mbps, PoE" },
+    { name: "TP-Link Amoda Hardware Controller OC220", cat: "Contrôleur WiFi", icon: "🎛️", image: "https://static.tp-link.com/upload/image-line/OC200_overview_01_normal_20250126022212n.jpg", desc: "Contrôleur WiFi matériel TP-Link OC220, gestion centralisée des points d'accès" },
+    { name: "TP-Link Deco AX1500", cat: "Point d'accès", icon: "📶", image: "https://needy.shop/cdn/shop/files/61_ab0ec889-2459-4a84-87b4-70c2a63f70c9_700x700.jpg?v=1716881745", desc: "Système WiFi Mesh TP-Link Deco AX1500, couverture jusqu'à 130 m², 3 unités" },
+    { name: "Toplink TL-POS80W", cat: "Imprimantes", icon: "🖨️", image: "https://ci.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/12/758662/1.jpg?7659", desc: "Imprimante de caisse thermique Toplink TL-POS80W, 80mm, USB/Ethernet, impression rapide" },
+    { name: "Yealink T31P", cat: "Téléphones IP", icon: "📞", image: "https://th.bing.com/th/id/OIP.PUJcTAwwrJt1Tanefj-ZEAHaEK?w=284&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Téléphone IP Yealink T31P, écran LCD 2.4\", PoE, supporte 3 lignes SIP, audio HD" },
+    { name: "Epson EcoTank L15150", cat: "Imprimantes", icon: "🖨️", image: "https://mediaserver.goepson.com/ImConvServlet/imconv/8c8c7d5f8c3c9d4f7d6d9f9d7d5e7c5a.jpg", desc: "Imprimante multifonction Epson EcoTank L15150 A3+, impression, copie, numérisation et fax" },
+    { name: "Epson EcoTank L14150", cat: "Imprimantes", icon: "🖨️", image: "https://mediaserver.goepson.com/ImConvServlet/imconv/5d5f4e3b8c4f7a9e3d8b9c6f7a4d3b5a.jpg", desc: "Imprimante multifonction Epson EcoTank L14150 A3+, impression, copie, numérisation et fax" },
+    { name: "Dell PowerEdge R250", cat: "Serveurs", icon: "🖥️", image: "https://th.bing.com/th/id/OIP.4PWVz1X_FmFZ2ZILl0MjywHaEK?w=315&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Serveur rack Dell PowerEdge R250, Xeon E-2314G, 16GB RAM" },
+    { name: "HP 290 G9 MT i3", cat: "Ordinateurs de Bureau", icon: "💻", image: "https://th.bing.com/th/id/OIP.bcFl1L04ip6Z2TP2v1d1lwHaHa?w=210&h=210&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Tour bureau HP 290 G9, i3-12100, 8GB RAM, 256GB SSD" },
+    { name: "HP 290 G9 MT i5", cat: "Ordinateurs de Bureau", icon: "💻", image: "https://th.bing.com/th/id/OIP.bcFl1L04ip6Z2TP2v1d1lwHaHa?w=210&h=210&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "Tour bureau HP 290 G9, i5-13500, 8GB RAM, 512GB SSD" },
+    { name: "HP 22-dg0012", cat: "Ordinateurs de Bureau", icon: "💻", image: "https://th.bing.com/th/id/OIP.Zl28XMPOX51U7zTqQX-jIAHaE8?w=247&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "PC All-in-One HP 22-dg0012, i3-N300, 8GB RAM, 512GB SSD" },
+    { name: "HP 24-cr0012L", cat: "Ordinateurs de Bureau", icon: "💻", image: "https://th.bing.com/th/id/OIP.Zl28XMPOX51U7zTqQX-jIAHaE8?w=247&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7", desc: "PC All-in-One HP 24-cr0012L, i3-N300, 8GB RAM, 512GB SSD" },
+    { name: "Grandstream GX2160", cat: "Téléphones IP", icon: "☎️", image: "https://www.grandstream.com/hubfs/Product_Images/GX2160.png", desc: "Téléphone IP Grandstream GX2160 pour bureaux et centres d'appels" },
+    { name: "Grandstream GX2650", cat: "Téléphones IP", icon: "☎️", image: "https://www.grandstream.com/hubfs/Product_Images/GX2650.png", desc: "Téléphone IP Grandstream GX2650 avec écran tactile couleur" },
+    { name: "Grandstream GRP2670", cat: "Téléphones IP", icon: "☎️", image: "https://www.grandstream.com/hubfs/Product_Images/GRP2670.png", desc: "Téléphone IP Grandstream GRP2670 haut de gamme avec Wi-Fi intégré" },
+    { name: "Grandstream GSC3516", cat: "Audio IP", icon: "🔊", image: "https://www.grandstream.com/hubfs/Product_Images/GSC3516.png", desc: "Haut-parleur SIP Grandstream GSC3516 pour annonces et sonorisation" },
+    { name: "Grandstream GRP2602G", cat: "Téléphones IP", icon: "☎️", image: "https://www.grandstream.com/hubfs/Product_Images/GRP2602G.png", desc: "Téléphone IP Grandstream GRP2602G avec ports Gigabit" },
+    { name: "Grandstream GRP2163W", cat: "Téléphones IP", icon: "☎️", image: "https://www.grandstream.com/hubfs/Product_Images/GRP2163W.png", desc: "Téléphone IP Grandstream GRP2163W avec Wi-Fi intégré" },
+    { name: "Grandstream GRP2601W", cat: "Téléphones IP", icon: "☎️", image: "https://www.grandstream.com/hubfs/Product_Images/GRP2601W.png", desc: "Téléphone IP Grandstream GRP2601W avec connectivité Wi-Fi" },
+    { name: "Grandstream ETH-SP-G2", cat: "Accessoires Réseau", icon: "🔌", image: "https://www.grandstream.com/hubfs/Product_Images/ETH-SP-G2.png", desc: "Protection réseau Ethernet Grandstream ETH-SP-G2 contre les surtensions" },
+    { name: "Logitech Rally Camera", cat: "Caméras", icon: "📷", image: "https://resource.logitech.com/content/dam/logitech/en/products/video-conferencing/rally-camera/rally-camera-gallery-1.png", desc: "Caméra de visioconférence Logitech professionnelle haute définition" },
+    { name: "Epson CO-W01", cat: "Projecteurs", icon: "📽️", image: "https://mediaserver.goepson.com/ImConvServlet/imconv/0c3a0c9e9c8d2b7f6d8e6a4e5b3a2c1f", desc: "Vidéoprojecteur Epson CO-W01, WXGA, 3000 lumens, HDMI, image grand format" },
+    { name: "Epson EB-X49", cat: "Projecteurs", icon: "📽️", image: "https://mediaserver.goepson.com/ImConvServlet/imconv/ebx49-projector-front", desc: "Vidéoprojecteur Epson EB-X49, XGA, 3600 lumens, HDMI et VGA" },
+    { name: "Epson EB-W51", cat: "Projecteurs", icon: "📽️", image: "https://mediaserver.goepson.com/ImConvServlet/imconv/ebw51-projector-front", desc: "Vidéoprojecteur Epson EB-W51, WXGA, 4000 lumens, HDMI, projection haute qualité" },
+  ];
+
+  // ===== Apply admin overrides from localStorage =====
+  const STORAGE_KEY = "bayero_products_v1";
+  const ADMIN_PASSWORD = "bayero2026"; // CHANGEZ ce mot de passe
+  function loadOverrides() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return null;
+      return JSON.parse(raw);
+    } catch(e) { return null; }
+  }
+  function saveProducts() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+  }
+  const saved = loadOverrides();
+  if (saved && Array.isArray(saved) && saved.length > 0) {
+    products.length = 0;
+    saved.forEach(p => products.push(p));
+  }
+
+  const grid = document.getElementById("products");
+  const filters = document.getElementById("filters");
+  const searchInput = document.getElementById("searchInput");
+  let currentCat = "all";
+  let currentQuery = "";
+
+  function render() {
+    grid.innerHTML = "";
+    const q = currentQuery.trim().toLowerCase();
+    const list = products.filter(p => {
+      const matchCat = currentCat === "all" || p.cat === currentCat;
+      const matchQ = !q || p.name.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q);
+      return matchCat && matchQ;
+    });
+    if (list.length === 0) {
+      grid.innerHTML = '<div class="no-results">Aucun produit trouvé pour votre recherche.</div>';
+      return;
+    }
+    list.forEach(p => {
+      const msg = encodeURIComponent(`Bonjour BAYERO INFORMATIQUE, je suis intéressé(e) par : ${p.name}. Pouvez-vous me donner plus d'informations ?`);
+      const link = `https://wa.me/${WHATSAPP}?text=${msg}`;
+      const card = document.createElement("div");
+      card.className = "product";
+      card.innerHTML = `
+        <div class="product-img"><img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.parentElement.innerHTML='<span style=&quot;font-size:4rem&quot;>'+'${p.icon}'+'</span>'"></div>
+        <div class="product-body">
+          <h3>${p.name}</h3>
+          <p>${p.desc}</p>
+          <a href="${link}" target="_blank" class="btn btn-wa">💬 Commander</a>
         </div>
-        <div class="copyright">
-            &copy; 2025 BAYERO INFORMATIQUE. Tous droits réservés.
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  filters.addEventListener("click", (e) => {
+    if (!e.target.classList.contains("filter-btn")) return;
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    e.target.classList.add("active");
+    currentCat = e.target.dataset.cat;
+    render();
+  });
+
+  searchInput.addEventListener("input", (e) => {
+    currentQuery = e.target.value;
+    render();
+  });
+
+  render();
+
+  // Smooth scroll
+  document.querySelectorAll('nav a[href^="#"]').forEach(a => {
+    a.addEventListener("click", e => {
+      e.preventDefault();
+      document.querySelector(a.getAttribute("href")).scrollIntoView({ behavior: "smooth" });
+    });
+  });
+
+  // ===== ADMIN PANEL LOGIC =====
+  const adminLogin = document.getElementById("adminLogin");
+  const adminPanel = document.getElementById("adminPanel");
+  const adminBody = document.getElementById("adminBody");
+  const adminStatus = document.getElementById("adminStatus");
+  const adminPass = document.getElementById("adminPass");
+  const adminSearch = document.getElementById("adminSearch");
+  const adminImgFile = document.getElementById("adminImgFile");
+  let editingImgIndex = -1;
+
+  function openAdmin() {
+    adminLogin.classList.remove("active");
+    adminPanel.classList.add("active");
+    renderAdmin();
+  }
+
+  function flashStatus(msg, ok = true) {
+    adminStatus.textContent = msg;
+    adminStatus.style.background = ok ? "#ecfdf5" : "#fef2f2";
+    adminStatus.style.color = ok ? "#065f46" : "#991b1b";
+    setTimeout(() => {
+      adminStatus.textContent = "✅ Modifications enregistrées automatiquement dans ce navigateur.";
+      adminStatus.style.background = "#ecfdf5";
+      adminStatus.style.color = "#065f46";
+    }, 2500);
+  }
+
+  function renderAdmin() {
+    const q = (adminSearch.value || "").toLowerCase().trim();
+    adminBody.innerHTML = "";
+    products.forEach((p, i) => {
+      if (q && !p.name.toLowerCase().includes(q) && !p.cat.toLowerCase().includes(q)) return;
+      const row = document.createElement("div");
+      row.className = "admin-row";
+      row.innerHTML = `
+        <img src="${p.image || ''}" alt="" onerror="this.style.background='#fee';this.src='';" title="Cliquez pour changer">
+        <div class="col-name"><input type="text" value="${(p.name||'').replace(/"/g,'&quot;')}" data-field="name" placeholder="Nom"></div>
+        <div class="col-cat"><input type="text" value="${(p.cat||'').replace(/"/g,'&quot;')}" data-field="cat" placeholder="Catégorie" list="catList"></div>
+        <div class="col-desc"><textarea data-field="desc" placeholder="Description">${p.desc||''}</textarea></div>
+        <div class="img-controls">
+          <input type="text" data-field="image" value="${(p.image||'').replace(/"/g,'&quot;')}" placeholder="URL image">
+          <button data-action="upload">📁 Téléverser</button>
         </div>
-    </footer>
+        <button class="btn-del" data-action="delete">🗑️</button>
+      `;
+      row.dataset.index = i;
+      adminBody.appendChild(row);
+    });
 
-    <script>
-        const produits = [
-            {id:1,nom:"Canon PIXMA G3410",description:"Imprimante multifonction réservoir d'encre, impression/scanner/copie, Wi-Fi",categorie:"Imprimantes",marque:"Canon",modele:"PIXMA G3410",etat:"Neuf",image:"https://cdn.idealo.com/folder/Product/202783/8/202783887/s4_produktbild_gross_2/canon-pixma-g3410.jpg",icon:"🖨️"},
-            {id:2,nom:"Lenovo ThinkBook 14 G7",description:"Portable Lenovo ThinkBook 14 G7, Ultra 7-155H, 8GB RAM, 512GB SSD",categorie:"Ordinateurs Portables",marque:"Lenovo",modele:"ThinkBook 14 G7",etat:"Neuf",image:"https://media.rueducommerce.fr/r1200/ld/products/00/06/07/70/LD0006077061_0006143814_0006145415.jpg",icon:"💻"},
-            {id:3,nom:"Lenovo ThinkPad E16 G1",description:"Portable Lenovo ThinkPad E16 G1, i5-13420H, 8GB RAM, 512GB SSD",categorie:"Ordinateurs Portables",marque:"Lenovo",modele:"ThinkPad E16 G1",etat:"Neuf",image:"https://www.voomstore.ci/65237-large_default/portable-lenovo-thinkpad-e16-g1-i5-1335u-8g-512gb-ssd-nos-2y-cci-20w1s55500.jpg",icon:"💻"},
-            {id:4,nom:"HP 15-fd0229nia",description:"Portable HP 15, i7-1355U, 8GB RAM, 512GB SSD, écran 15.6\" Full HD",categorie:"Ordinateurs Portables",marque:"HP",modele:"15fd0229nia",etat:"Neuf",image:"https://puresolutions.ma/wp-content/uploads/2024/01/Nouveau-projet-2024-01-30T161809.321-510x510.webp",icon:"💻"},
-            {id:5,nom:"Acer X1329WHP",description:"Projecteur Acer X1329WHP, 4800 lumens, résolution WXGA, compatible Full HD",categorie:"Projecteurs",marque:"Acer",modele:"X1329WHP",etat:"Neuf",image:"https://www.bigbaazaaru.mv/wp-content/uploads/2024/07/IkKTyMBb1658825526-480x380.png",icon:"📽️"},
-            {id:6,nom:"Zebra ZD621T",description:"Imprimante d'étiquettes de bureau Zebra ZD621T, impression thermique transfert",categorie:"Imprimantes",marque:"Zebra",modele:"ZD621T",etat:"Neuf",image:"https://www.printerbase.co.uk/media/catalog/product/cache/da0d4b41a2735aaf1e00b4dd4990980e/z/e/zebra-zd420a_2_1_9_3.jpg",icon:"🖨️"},
-            {id:7,nom:"Canon imageRUNNER 3326i",description:"Copieur multifonction Canon ImageRUNNER 3326i, impression/copie/numérisation",categorie:"Imprimantes",marque:"Canon",modele:"imageRUNNER 3326i",etat:"Neuf",image:"https://cdn.media.amplience.net/i/canon/imagerunner-c3326i-frt_range-page_2d821de297544f918e1924b1e1232bbf?$support-hero-header$",icon:"🖨️"},
-            {id:8,nom:"HP Pro 3600 F1",description:"Scanner professionnel HP Pro 3600 F1, numérisation recto-verso automatique",categorie:"Scanners",marque:"HP",modele:"Pro 3600 F1",etat:"Neuf",image:"https://hp.widen.net/content/udktz8twhi/png/udktz8twhi.png?w=800&h=600&dpi=72&color=ffffff00",icon:"📄"},
-            {id:9,nom:"HP Pro N4600 Fnw1",description:"Scanner réseau HP Pro N4600 Fnw1, haute vitesse, alimentation automatique",categorie:"Scanners",marque:"HP",modele:"Pro N4600 Fnw1",etat:"Neuf",image:"https://hp.widen.net/content/ndzhonakz8/png/ndzhonakz8.png?w=800&h=600&dpi=72&color=ffffff00",icon:"📄"},
-            {id:10,nom:"HP Pro 2600 F1",description:"Scanner professionnel HP Pro 2600 F1, compact, recto-verso automatique",categorie:"Scanners",marque:"HP",modele:"Pro 2600 F1",etat:"Neuf",image:"https://hp.widen.net/content/zijsar8amq/png/zijsar8amq.png?w=800&h=600&dpi=72&color=ffffff00",icon:"📄"},
-            {id:11,nom:"Epson WorkForce DS-1630",description:"Scanner de documents Epson WorkForce DS-1630, alimentation automatique",categorie:"Scanners",marque:"Epson",modele:"WorkForce DS-1630",etat:"Neuf",image:"https://i8.amplience.net/i/epsonemear/20467-productpicture-lores-en-ds-1630_main?$product-xlarge$&fmt=auto",icon:"📄"},
-            {id:12,nom:"Epson DS530",description:"Scanner compact Epson DS530, portable, alimentation automatique",categorie:"Scanners",marque:"Epson",modele:"DS530",etat:"Neuf",image:"https://www.ntc-tech.com/cdn/shop/products/vZtU2UWFg8TKgGv79xPe0oqNZpuqljSEdwgwrud5i3SY8pglihidv6s6wMMe4KIFJsQhPd3ODEPN03Xiv_8ffhgC1pQL6rs_s4470.jpg?v=1707849215&width=1445",icon:"📄"},
-            {id:13,nom:"Epson Workforce DS870",description:"Scanner haut de gamme Epson Workforce DS870, vitesse élevée",categorie:"Scanners",marque:"Epson",modele:"Workforce DS870",etat:"Neuf",image:"https://www.startech.com.bd/image/cache/catalog/scanner/epson/ds-870/ds-870-01-500x500.webp",icon:"📄"},
-            {id:14,nom:"Epson Perfection V39II",description:"Scanner à plat Epson Perfection V39II, haute résolution 4800 dpi",categorie:"Scanners",marque:"Epson",modele:"Perfection V39II",etat:"Neuf",image:"https://mediaserver.goepson.com/ImConvServlet/imconv/ec4242888a461054d142031212949d640bac3412/1200Wx1200H?use=banner&hybrisId=B2C&assetDescr=V39II-%281%29",icon:"📄"},
-            {id:15,nom:"Cisco C9200L-24P-4G-E",description:"Switch Cisco Catalyst 9200L 24 ports PoE, 4 ports SFP",categorie:"Switchs",marque:"Cisco",modele:"C9200L-24P-4G-E",etat:"Neuf",image:"https://www.telquestintl.com/site/images/products/C9200L-24P-4G-A-WS.Media-1.jpg?resizeid=5&resizeh=1200&resizew=1200",icon:"🔌"},
-            {id:16,nom:"Cisco C9200L-48P-4G-A",description:"Switch Cisco Catalyst 9200L 48 ports PoE+, stackable",categorie:"Switchs",marque:"Cisco",modele:"C9200L-48P-4G-A",etat:"Neuf",image:"https://amsi.ci/wp-content/uploads/2025/12/9200L.png",icon:"🔌"},
-            {id:17,nom:"Cisco CBS350-24P-4G",description:"Switch Cisco Business 24 ports Gigabit PoE+, 4 ports SFP",categorie:"Switchs",marque:"Cisco",modele:"CBS350-24P-4G",etat:"Neuf",image:"https://media.router-switch.com/media/mf_webp/jpg/media/catalog/product/cache/b90fceee6a5fa7acd36a04c7b968181c/c/i/cisco-cbs350-24p-4g.webp",icon:"🔌"},
-            {id:18,nom:"HP ProLiant DL380 Gen10",description:"Serveur rack HP ProLiant DL380 Gen10, Xeon Silver 4210R, 32GB RAM",categorie:"Serveurs",marque:"HP",modele:"ProLiant DL380 Gen10",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.qdR_VFcMtcCovR-TPWWgXQHaEK?w=320&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"🖥️"},
-            {id:19,nom:"Canon MAXIFY GX1020",description:"Imprimante multifonction Canon MAXIFY GX1020 MegaTank, impression, copie et numérisation avec réservoirs d'encre rechargeables",categorie:"Imprimantes",marque:"Canon",modele:"MAXIFY GX1020",etat:"Neuf",image:"https://i.postimg.cc/jjhGbBZv/GX1020-Right-side-2.png",icon:"🖨️"},
-            {id:20,nom:"Canon MAXIFY GX2040",description:"Imprimante multifonction Canon MAXIFY GX2040 MegaTank, impression, copie, numérisation et fax avec Wi-Fi",categorie:"Imprimantes",marque:"Canon",modele:"MAXIFY GX2040",etat:"Neuf",image:"https://djokstore.ci/cdn/shop/files/maxify-gx2040-fra_gallery_01_e2d55ed7bb4847739230fed211282ca7.avif?v=1779666212",icon:"🖨️"},
-            {id:21,nom:"Grandstream GRP2634",description:"Téléphone IP professionnel Grandstream GRP2634 avec écran couleur et support SIP",categorie:"Téléphones IP",marque:"Grandstream",modele:"GRP2634",etat:"Neuf",image:"https://www.grandstream.com/hubfs/Product%20Images/GRP/GRP2634/GRP2634_frontv2_web.png",icon:"☎️"},
-            {id:22,nom:"Grandstream GRP2636",description:"Téléphone IP Grandstream GRP2636 haute performance pour entreprises",categorie:"Téléphones IP",marque:"Grandstream",modele:"GRP2636",etat:"Neuf",image:"https://www.grandstream.com/hubfs/Product%20Images/GRP/GRP2636/GRP2636%202.png",icon:"☎️"},
-            {id:23,nom:"Grandstream GX2140",description:"Téléphone IP Grandstream GX2140 avec écran couleur et fonctionnalités avancées",categorie:"Téléphones IP",marque:"Grandstream",modele:"GX2140",etat:"Neuf",image:"https://www.grandstream.com/hubfs/Product%20Images/GXP/GXP2140/gxp2140_front.png",icon:"☎️"},
-            {id:24,nom:"Dell Vostro 3030",description:"Tour bureau Dell Vostro 3030, i3-14100, 8GB RAM, 512GB SSD",categorie:"Ordinateurs de Bureau",marque:"Dell",modele:"Vostro 3030",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.jE29kPD_Ej7p9Z_tfFWcXgHaE8?w=269&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"💻"},
-            {id:25,nom:"Dell Optiplex 7020MT",description:"Tour bureau Dell Optiplex 7020MT, i5-12500, 8GB RAM, 512GB SSD",categorie:"Ordinateurs de Bureau",marque:"Dell",modele:"Optiplex 7020MT",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.jE29kPD_Ej7p9Z_tfFWcXgHaE8?w=269&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"💻"},
-            {id:26,nom:"HP 260 G9 Mini",description:"Mini bureau HP 260 G9, i5 13ème génération, 16GB RAM, 512GB SSD",categorie:"Ordinateurs de Bureau",marque:"HP",modele:"260 G9",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.jE29kPD_Ej7p9Z_tfFWcXgHaE8?w=269&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"💻"},
-            {id:27,nom:"Lenovo L24e-40",description:"Écran LED Lenovo L24e-40 23.8\" Full HD, dalle IPS",categorie:"Écrans",marque:"Lenovo",modele:"L24e-40",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.4S-JU5b-DfOb5a4yH8lINAHaHa?w=207&h=207&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"🖥️"},
-            {id:28,nom:"Lenovo L27i-4A",description:"Écran LED Lenovo L27i-4A 27\" Full HD, dalle IPS",categorie:"Écrans",marque:"Lenovo",modele:"L27i-4A",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.4S-JU5b-DfOb5a4yH8lINAHaHa?w=207&h=207&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"🖥️"},
-            {id:29,nom:"HP P22v G5",description:"Écran LED HP P22v G5 22\" Full HD, dalle IPS",categorie:"Écrans",marque:"HP",modele:"P22v G5",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.MW1ujLEyVkCv5I0ECWbscAHaHa?w=215&h=215&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"🖥️"},
-            {id:30,nom:"Dell S2725H",description:"Écran LED Dell S2725H 27\" Full HD, dalle IPS",categorie:"Écrans",marque:"Dell",modele:"S2725H",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.weH7EDe0RQgUVk59t_h1RgHaEK?w=303&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"🖥️"},
-            {id:31,nom:"HP 32\" 532SF",description:"Écran LED HP 32\" 532SF, résolution QHD, dalle IPS",categorie:"Écrans",marque:"HP",modele:"32\" 532SF",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.MW1ujLEyVkCv5I0ECWbscAHaHa?w=215&h=215&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"🖥️"},
-            {id:32,nom:"Panasonic KX-TES824CE",description:"Système téléphonique hybride Panasonic KX-TES824CE, 8 lignes",categorie:"Téléphonie IP",marque:"Panasonic",modele:"KX-TES824CE",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.sduapn3ptQYzRPhMq80s4gHaHa?w=211&h=211&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"📞"},
-            {id:33,nom:"HP CS10 French",description:"Clavier sans fil HP CS10, disposition française",categorie:"Accessoires",marque:"HP",modele:"CS10 French",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.8qUiwGk_9Q9CbVJz6bSUlgHaHa?w=212&h=212&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"⌨️"},
-            {id:34,nom:"MI TV Box S",description:"Boîtier TV Mi Box S, Android TV, 4K HDR",categorie:"Accessoires",marque:"Xiaomi",modele:"Mi Box S",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.N6fV-6P3aYSpA_hVU-PZ0QHaEK?w=298&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"📺"},
-            {id:35,nom:"HP Omnibook 5 Flip",description:"HP Omnibook 5 Flip 14-fp0023dx, écran tactile 14\", Windows 11",categorie:"Ordinateurs Portables",marque:"HP",modele:"Omnibook 5 Flip",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.YW7GNPUAYjfEeBOcw9fJDAHaEK?w=324&h=182&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"💻"},
-            {id:36,nom:"HP Spectre x360",description:"HP Spectre x360 14t-eu000, écran OLED 13.3\" tactile",categorie:"Ordinateurs Portables",marque:"HP",modele:"Spectre x360",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.YW7GNPUAYjfEeBOcw9fJDAHaEK?w=324&h=182&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"💻"},
-            {id:37,nom:"HP EliteBook 830 G11",description:"HP EliteBook 830 G11, écran IPS WQXGA 13.3\", Windows 11 Pro",categorie:"Ordinateurs Portables",marque:"HP",modele:"EliteBook 830 G11",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.YW7GNPUAYjfEeBOcw9fJDAHaEK?w=324&h=182&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"💻"},
-            {id:38,nom:"HP Omnibook X Flip",description:"HP Omnibook X Flip 14-fm0023dx, écran OLED tactile 14\"",categorie:"Ordinateurs Portables",marque:"HP",modele:"Omnibook X Flip",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.YW7GNPUAYjfEeBOcw9fJDAHaEK?w=324&h=182&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"💻"},
-            {id:39,nom:"HP Victus 15",description:"HP Victus 15-FA2701WM, RTX 4050 6GB, Windows 11",categorie:"Ordinateurs Portables",marque:"HP",modele:"Victus 15",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.YW7GNPUAYjfEeBOcw9fJDAHaEK?w=324&h=182&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"💻"},
-            {id:40,nom:"Dell Latitude 5540",description:"Dell Latitude 5540, i5 13ème génération, 16GB RAM, 512GB SSD",categorie:"Ordinateurs Portables",marque:"Dell",modele:"Latitude 5540",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.Q6fK1iqWrggIBIY8DUxr7QHaE8?w=266&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"💻"},
-            {id:41,nom:"Dell Latitude 13 5340",description:"Dell Latitude 13 5340, écran 13.3\", Windows 11 Pro",categorie:"Ordinateurs Portables",marque:"Dell",modele:"Latitude 13 5340",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.Q6fK1iqWrggIBIY8DUxr7QHaE8?w=266&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"💻"},
-            {id:42,nom:"Dell Latitude 3450",description:"Dell Latitude 3450, i7-1355U, 16GB RAM, 512GB SSD",categorie:"Ordinateurs Portables",marque:"Dell",modele:"Latitude 3450",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.Q6fK1iqWrggIBIY8DUxr7QHaE8?w=266&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"💻"},
-            {id:43,nom:"Dell Vostro 3530",description:"Dell Vostro 3530, écran Full HD 15.6\", i7-1355U",categorie:"Ordinateurs Portables",marque:"Dell",modele:"Vostro 3530",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.Q6fK1iqWrggIBIY8DUxr7QHaE8?w=266&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"💻"},
-            {id:44,nom:"Asus VivoBook X1504VA",description:"Asus VivoBook X1504VA, i7-1355U, 8GB RAM, 512GB SSD",categorie:"Ordinateurs Portables",marque:"Asus",modele:"VivoBook X1504VA",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.e0okXp35vapA23FCS6U_pAHaEK?w=315&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"💻"},
-            {id:45,nom:"Asus TUF FX507VV",description:"Asus TUF Gaming FX507VV, RTX 4060 8GB, Windows 11",categorie:"Ordinateurs Portables",marque:"Asus",modele:"TUF FX507VV",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.e0okXp35vapA23FCS6U_pAHaEK?w=315&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"💻"},
-            {id:46,nom:"Acer Aspire Lite",description:"Acer Aspire Lite, i5-13500H, 8GB RAM, 512GB SSD",categorie:"Ordinateurs Portables",marque:"Acer",modele:"Aspire Lite",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.Q6fK1iqWrggIBIY8DUxr7QHaE8?w=266&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"💻"},
-            {id:47,nom:"Acer Nitro V15",description:"Acer Nitro V15 Gaming, RTX 5060 8GB, i9-13900H",categorie:"Ordinateurs Portables",marque:"Acer",modele:"Nitro V15",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.Q6fK1iqWrggIBIY8DUxr7QHaE8?w=266&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"💻"},
-            {id:48,nom:"HP 200 G4 AiO",description:"HP All-in-One 200 G4, i5-1235U, 8GB RAM, 512GB SSD",categorie:"Ordinateurs de Bureau",marque:"HP",modele:"200 G4",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.Zl28XMPOX51U7zTqQX-jIAHaE8?w=247&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"💻"},
-            {id:49,nom:"HP 24-CR0039L",description:"HP 24-CR0039L, écran tactile 23.8\", coque blanche",categorie:"Ordinateurs de Bureau",marque:"HP",modele:"24-CR0039L",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.Zl28XMPOX51U7zTqQX-jIAHaE8?w=247&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"💻"},
-            {id:50,nom:"HP 27-CR0068NY",description:"HP 27-CR0068NY, écran 27\", coque blanche",categorie:"Ordinateurs de Bureau",marque:"HP",modele:"27-CR0068NY",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.Zl28XMPOX51U7zTqQX-jIAHaE8?w=247&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"💻"},
-            {id:51,nom:"HP 24-CR0049NH",description:"HP 24-CR0049NH, écran Full HD 24\", couleur noire",categorie:"Ordinateurs de Bureau",marque:"HP",modele:"24-CR0049NH",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.Zl28XMPOX51U7zTqQX-jIAHaE8?w=247&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"💻"},
-            {id:52,nom:"Epson EcoTank L18050",description:"Imprimante Epson EcoTank L18050, réservoir d'encre, format extra large",categorie:"Imprimantes",marque:"Epson",modele:"EcoTank L18050",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.dCmg64e-kPgs7F8v_QNQRQHaHa?w=218&h=218&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"🖨️"},
-            {id:53,nom:"Epson TMT20II",description:"Imprimante de tickets Epson TMT20II, thermique, impression rapide",categorie:"Imprimantes",marque:"Epson",modele:"TMT20II",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.dCmg64e-kPgs7F8v_QNQRQHaHa?w=218&h=218&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"🖨️"},
-            {id:54,nom:"Canon i-SENSYS LBP6030B",description:"Imprimante laser Canon i-SENSYS LBP6030B, monochrome",categorie:"Imprimantes",marque:"Canon",modele:"i-SENSYS LBP6030B",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.dCmg64e-kPgs7F8v_QNQRQHaHa?w=218&h=218&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"🖨️"},
-            {id:55,nom:"Canon i-SENSYS MF275dw",description:"Imprimante multifonction Canon i-SENSYS MF275dw, laser, WiFi",categorie:"Imprimantes",marque:"Canon",modele:"i-SENSYS MF275dw",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.dCmg64e-kPgs7F8v_QNQRQHaHa?w=218&h=218&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"🖨️"},
-            {id:56,nom:"Mikrotik RB951Ui-2HnD",description:"Routeur Mikrotik RB951Ui-2HnD, 5 ports Gigabit, WiFi N",categorie:"Routeurs",marque:"Mikrotik",modele:"RB951Ui-2HnD",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.-9sWev3e7C58-aUYDbIAvwHaE7?w=290&h=193&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"📡"},
-            {id:57,nom:"Logitech H390",description:"Casque audio Logitech H390, microphone intégré, USB",categorie:"Accessoires",marque:"Logitech",modele:"H390",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.4S-JU5b-DfOb5a4yH8lINAHaHa?w=207&h=207&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"🎧"},
-            {id:58,nom:"HP Color LaserJet Pro 3303fdw",description:"Imprimante multifonction HP LaserJet Pro 3303fdw, impression, copie, numérisation et fax avec Wi-Fi",categorie:"Imprimantes",marque:"HP",modele:"LaserJet Pro 3303fdw",etat:"Neuf",image:"https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c08545807.png",icon:"🖨️"},
-            {id:59,nom:"HP LaserJet Pro 4103dw",description:"Imprimante HP LaserJet Pro 4103dw monochrome avec impression recto-verso automatique et Wi-Fi",categorie:"Imprimantes",marque:"HP",modele:"LaserJet Pro 4103dw",etat:"Neuf",image:"https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c08028307.png",icon:"🖨️"},
-            {id:60,nom:"Fanvil X303P",description:"Téléphone IP Fanvil X303P, 2 lignes SIP, écran LCD, PoE, HD audio",categorie:"Téléphonie IP",marque:"Fanvil",modele:"X303P",etat:"Neuf",image:"https://cdn.store-assets.com/s/337542/i/70618265.png",icon:"📞"},
-            {id:61,nom:"HP Color LaserJet Pro 4303fdw",description:"Imprimante multifonction couleur HP LaserJet Pro 4303fdw avec Wi-Fi, scanner et fax",categorie:"Imprimantes",marque:"HP",modele:"LaserJet Pro 4303fdw",etat:"Neuf",image:"https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c08179306.png",icon:"🖨️"},
-            {id:62,nom:"HP LaserJet MFP M141a",description:"Imprimante multifonction HP LaserJet MFP M141a compacte, impression, copie et numérisation",categorie:"Imprimantes",marque:"HP",modele:"LaserJet MFP M141a",etat:"Neuf",image:"https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c06921554.png",icon:"🖨️"},
-            {id:63,nom:"HP LaserJet M111a",description:"Imprimante HP LaserJet M111a compacte monochrome pour bureau et domicile",categorie:"Imprimantes",marque:"HP",modele:"LaserJet M111a",etat:"Neuf",image:"https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c06921490.png",icon:"🖨️"},
-            {id:64,nom:"TP-Link Amoda EAP110-Outdoor",description:"Point d'accès WiFi extérieur TP-Link EAP110-Outdoor, IP65, 300 Mbps, PoE",categorie:"Point d'accès",marque:"TP-Link",modele:"EAP110-Outdoor",etat:"Neuf",image:"https://static.tp-link.com/upload/image-line/EAP225-Outdoor_normal_20230821084232j.png",icon:"📶"},
-            {id:65,nom:"TP-Link Amoda Hardware Controller OC220",description:"Contrôleur WiFi matériel TP-Link OC220, gestion centralisée des points d'accès",categorie:"Contrôleur WiFi",marque:"TP-Link",modele:"OC220",etat:"Neuf",image:"https://static.tp-link.com/upload/image-line/OC200_overview_01_normal_20250126022212n.jpg",icon:"🎛️"},
-            {id:66,nom:"TP-Link Deco AX1500",description:"Système WiFi Mesh TP-Link Deco AX1500, couverture jusqu'à 130 m², 3 unités",categorie:"Point d'accès",marque:"TP-Link",modele:"Deco AX1500",etat:"Neuf",image:"https://needy.shop/cdn/shop/files/61_ab0ec889-2459-4a84-87b4-70c2a63f70c9_700x700.jpg?v=1716881745",icon:"📶"},
-            {id:67,nom:"Toplink TL-POS80W",description:"Imprimante de caisse thermique Toplink TL-POS80W, 80mm, USB/Ethernet, impression rapide",categorie:"Imprimantes",marque:"Toplink",modele:"TL-POS80W",etat:"Neuf",image:"https://ci.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/12/758662/1.jpg?7659",icon:"🖨️"},
-            {id:68,nom:"Yealink T31P",description:"Téléphone IP Yealink T31P, écran LCD 2.4\", PoE, supporte 3 lignes SIP, audio HD",categorie:"Téléphones IP",marque:"Yealink",modele:"T31P",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.PUJcTAwwrJt1Tanefj-ZEAHaEK?w=284&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"📞"},
-            {id:70,nom:"Epson EcoTank L15150",description:"Imprimante multifonction Epson EcoTank L15150 A3+, impression, copie, numérisation et fax",categorie:"Imprimantes",marque:"Epson",modele:"EcoTank L15150",etat:"Neuf",image:"https://mediaserver.goepson.com/ImConvServlet/imconv/8c8c7d5f8c3c9d4f7d6d9f9d7d5e7c5a.jpg",icon:"🖨️"},
-            {id:71,nom:"Epson EcoTank L14150",description:"Imprimante multifonction Epson EcoTank L14150 A3+, impression, copie, numérisation et fax",categorie:"Imprimantes",marque:"Epson",modele:"EcoTank L14150",etat:"Neuf",image:"https://mediaserver.goepson.com/ImConvServlet/imconv/5d5f4e3b8c4f7a9e3d8b9c6f7a4d3b5a.jpg",icon:"🖨️"},
-            {id:72,nom:"Dell PowerEdge R250",description:"Serveur rack Dell PowerEdge R250, Xeon E-2314G, 16GB RAM",categorie:"Serveurs",marque:"Dell",modele:"PowerEdge R250",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.4PWVz1X_FmFZ2ZILl0MjywHaEK?w=315&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"🖥️"},
-            {id:73,nom:"HP 290 G9 MT i3",description:"Tour bureau HP 290 G9, i3-12100, 8GB RAM, 256GB SSD",categorie:"Ordinateurs de Bureau",marque:"HP",modele:"290 G9 MT",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.bcFl1L04ip6Z2TP2v1d1lwHaHa?w=210&h=210&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"💻"},
-            {id:74,nom:"HP 290 G9 MT i5",description:"Tour bureau HP 290 G9, i5-13500, 8GB RAM, 512GB SSD",categorie:"Ordinateurs de Bureau",marque:"HP",modele:"290 G9 MT",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.bcFl1L04ip6Z2TP2v1d1lwHaHa?w=210&h=210&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"💻"},
-            {id:75,nom:"HP 22-dg0012",description:"PC All-in-One HP 22-dg0012, i3-N300, 8GB RAM, 512GB SSD",categorie:"Ordinateurs de Bureau",marque:"HP",modele:"22-dg0012",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.Zl28XMPOX51U7zTqQX-jIAHaE8?w=247&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"💻"},
-            {id:76,nom:"HP 24-cr0012L",description:"PC All-in-One HP 24-cr0012L, i3-N300, 8GB RAM, 512GB SSD",categorie:"Ordinateurs de Bureau",marque:"HP",modele:"24-cr0012L",etat:"Neuf",image:"https://th.bing.com/th/id/OIP.Zl28XMPOX51U7zTqQX-jIAHaE8?w=247&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",icon:"💻"},
-            {id:77,nom:"Grandstream GX2160",description:"Téléphone IP Grandstream GX2160 pour bureaux et centres d'appels",categorie:"Téléphones IP",marque:"Grandstream",modele:"GX2160",etat:"Neuf",image:"https://www.grandstream.com/hubfs/Product_Images/GX2160.png",icon:"☎️"},
-            {id:78,nom:"Grandstream GX2650",description:"Téléphone IP Grandstream GX2650 avec écran tactile couleur",categorie:"Téléphones IP",marque:"Grandstream",modele:"GX2650",etat:"Neuf",image:"https://www.grandstream.com/hubfs/Product_Images/GX2650.png",icon:"☎️"},
-            {id:79,nom:"Grandstream GRP2670",description:"Téléphone IP Grandstream GRP2670 haut de gamme avec Wi-Fi intégré",categorie:"Téléphones IP",marque:"Grandstream",modele:"GRP2670",etat:"Neuf",image:"https://www.grandstream.com/hubfs/Product_Images/GRP2670.png",icon:"☎️"},
-            {id:80,nom:"Grandstream GSC3516",description:"Haut-parleur SIP Grandstream GSC3516 pour annonces et sonorisation",categorie:"Audio IP",marque:"Grandstream",modele:"GSC3516",etat:"Neuf",image:"https://www.grandstream.com/hubfs/Product_Images/GSC3516.png",icon:"🔊"},
-            {id:81,nom:"Grandstream GRP2602G",description:"Téléphone IP Grandstream GRP2602G avec ports Gigabit",categorie:"Téléphones IP",marque:"Grandstream",modele:"GRP2602G",etat:"Neuf",image:"https://www.grandstream.com/hubfs/Product_Images/GRP2602G.png",icon:"☎️"},
-            {id:82,nom:"Grandstream GRP2163W",description:"Téléphone IP Grandstream GRP2163W avec Wi-Fi intégré",categorie:"Téléphones IP",marque:"Grandstream",modele:"GRP2163W",etat:"Neuf",image:"https://www.grandstream.com/hubfs/Product_Images/GRP2163W.png",icon:"☎️"},
-            {id:83,nom:"Grandstream GRP2601W",description:"Téléphone IP Grandstream GRP2601W avec connectivité Wi-Fi",categorie:"Téléphones IP",marque:"Grandstream",modele:"GRP2601W",etat:"Neuf",image:"https://www.grandstream.com/hubfs/Product_Images/GRP2601W.png",icon:"☎️"},
-            {id:84,nom:"Grandstream ETH-SP-G2",description:"Protection réseau Ethernet Grandstream ETH-SP-G2 contre les surtensions",categorie:"Accessoires Réseau",marque:"Grandstream",modele:"ETH-SP-G2",etat:"Neuf",image:"https://www.grandstream.com/hubfs/Product_Images/ETH-SP-G2.png",icon:"🔌"},
-            {id:85,nom:"Logitech Rally Camera",description:"Caméra de visioconférence Logitech professionnelle haute définition",categorie:"Caméras",marque:"Logitech",modele:"Rally Camera",etat:"Neuf",image:"https://resource.logitech.com/content/dam/logitech/en/products/video-conferencing/rally-camera/rally-camera-gallery-1.png",icon:"📷"},
-            {id:86,nom:"Epson CO-W01",description:"Vidéoprojecteur Epson CO-W01, WXGA, 3000 lumens, HDMI, image grand format",categorie:"Projecteurs",marque:"Epson",modele:"CO-W01",etat:"Neuf",image:"https://mediaserver.goepson.com/ImConvServlet/imconv/0c3a0c9e9c8d2b7f6d8e6a4e5b3a2c1f",icon:"📽️"},
-            {id:87,nom:"Epson EB-X49",description:"Vidéoprojecteur Epson EB-X49, XGA, 3600 lumens, HDMI et VGA",categorie:"Projecteurs",marque:"Epson",modele:"EB-X49",etat:"Neuf",image:"https://mediaserver.goepson.com/ImConvServlet/imconv/ebx49-projector-front",icon:"📽️"},
-            {id:88,nom:"Epson EB-W51",description:"Vidéoprojecteur Epson EB-W51, WXGA, 4000 lumens, HDMI, projection haute qualité",categorie:"Projecteurs",marque:"Epson",modele:"EB-W51",etat:"Neuf",image:"https://mediaserver.goepson.com/ImConvServlet/imconv/ebw51-projector-front",icon:"📽️"}
-        ];
+    // datalist for categories
+    let dl = document.getElementById("catList");
+    if (!dl) {
+      dl = document.createElement("datalist");
+      dl.id = "catList";
+      adminBody.appendChild(dl);
+    }
+    const cats = [...new Set(products.map(p => p.cat))].sort();
+    dl.innerHTML = cats.map(c => `<option value="${c}">`).join("");
+  }
 
-        let filteredProducts = [...produits];
-        let currentCategory = "";
-        let currentMarque = "";
-        let currentSearch = "";
-        let currentSelectedProduct = null;
+  // Delegate events in admin body
+  adminBody.addEventListener("input", (e) => {
+    const row = e.target.closest(".admin-row");
+    if (!row) return;
+    const i = +row.dataset.index;
+    const field = e.target.dataset.field;
+    if (!field || !products[i]) return;
+    products[i][field] = e.target.value;
+    if (field === "image") {
+      const img = row.querySelector("img");
+      if (img) img.src = e.target.value;
+    }
+    saveProducts();
+    render();
+  });
 
-        function formatPrice(price) {
-            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-        }
+  adminBody.addEventListener("click", (e) => {
+    const row = e.target.closest(".admin-row");
+    if (!row) return;
+    const i = +row.dataset.index;
+    if (e.target.tagName === "IMG") {
+      editingImgIndex = i;
+      adminImgFile.click();
+    }
+    const action = e.target.dataset.action;
+    if (action === "upload") {
+      editingImgIndex = i;
+      adminImgFile.click();
+    }
+    if (action === "delete") {
+      if (confirm(`Supprimer "${products[i].name}" ?`)) {
+        products.splice(i, 1);
+        saveProducts();
+        render();
+        renderAdmin();
+        flashStatus("🗑️ Produit supprimé");
+      }
+    }
+  });
 
-        function openModal(product) {
-            currentSelectedProduct = product;
-            const modal = document.getElementById('productModal');
-            const modalPlaceholder = document.getElementById('modalPlaceholder');
-            const modalDetails = document.getElementById('modalDetails');
-            
-            modalPlaceholder.textContent = product.icon || '📦';
-            modalPlaceholder.style.fontSize = '80px';
-            
-            modalDetails.innerHTML = `
-                <div class="detail-item">
-                    <div class="detail-label">🏷️ Nom</div>
-                    <div class="detail-value">${product.nom}</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">📂 Catégorie</div>
-                    <div class="detail-value">${product.categorie}</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">🏭 Marque</div>
-                    <div class="detail-value">${product.marque}</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">🔧 Modèle</div>
-                    <div class="detail-value">${product.modele || 'Non spécifié'}</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">📝 Description</div>
-                    <div class="detail-value">${product.description}</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">🆕 État</div>
-                    <div class="detail-value">${product.etat || 'Neuf'}</div>
-                </div>
-            `;
-            
-            modal.style.display = "block";
-            document.body.style.overflow = "hidden";
-        }
+  adminImgFile.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (!file || editingImgIndex < 0) return;
+    if (file.size > 2 * 1024 * 1024) {
+      flashStatus("⚠️ Image trop lourde (max 2 Mo)", false);
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      products[editingImgIndex].image = reader.result;
+      saveProducts();
+      render();
+      renderAdmin();
+      flashStatus("✅ Image mise à jour");
+    };
+    reader.readAsDataURL(file);
+    adminImgFile.value = "";
+  });
 
-        function closeModal() {
-            const modal = document.getElementById('productModal');
-            modal.style.display = "none";
-            document.body.style.overflow = "auto";
-            currentSelectedProduct = null;
-        }
+  adminSearch.addEventListener("input", renderAdmin);
 
-        function contactWhatsApp(product) {
-            if (!product) return;
-            const phoneNumber = "2250160435955";
-            const message = `Bonjour BAYERO INFORMATIQUE! Je suis intéressé par ce produit :
+  document.getElementById("adminAddBtn").addEventListener("click", () => {
+    products.unshift({
+      name: "Nouveau produit",
+      cat: "Accessoires",
+      icon: "📦",
+      image: "",
+      desc: "Description du produit"
+    });
+    saveProducts();
+    render();
+    renderAdmin();
+    flashStatus("➕ Produit ajouté en haut de la liste");
+  });
 
-🏷️ Produit: ${product.nom}
-📂 Catégorie: ${product.categorie}
-🏷️ Marque: ${product.marque}
-🔧 Modèle: ${product.modele || 'N/A'}
-🆕 État: ${product.etat || 'Neuf'}
+  document.getElementById("adminExportBtn").addEventListener("click", () => {
+    const blob = new Blob([JSON.stringify(products, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `bayero-produits-${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    flashStatus("⬇️ Fichier JSON téléchargé");
+  });
 
-Est-il disponible ?`;
-            
-            const encodedMessage = encodeURIComponent(message);
-            window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
-        }
+  document.getElementById("adminImportBtn").addEventListener("click", () => {
+    document.getElementById("adminImportFile").click();
+  });
+  document.getElementById("adminImportFile").addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const arr = JSON.parse(reader.result);
+        if (!Array.isArray(arr)) throw new Error("Format invalide");
+        if (!confirm(`Remplacer la liste actuelle par ${arr.length} produits importés ?`)) return;
+        products.length = 0;
+        arr.forEach(p => products.push(p));
+        saveProducts();
+        render();
+        renderAdmin();
+        flashStatus("⬆️ Importation réussie");
+      } catch (err) {
+        flashStatus("❌ Fichier JSON invalide", false);
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = "";
+  });
 
-        function loadImageWithFallback(imgElement, imageUrl, productIcon, placeholderDiv) {
-            const secureUrl = imageUrl ? imageUrl.replace('http://', 'https://') : null;
-            if (!secureUrl) {
-                if (placeholderDiv) {
-                    placeholderDiv.style.opacity = '1';
-                    placeholderDiv.innerHTML = productIcon;
-                }
-                return;
-            }
-            
-            const img = new Image();
-            
-            img.onload = function() {
-                imgElement.style.backgroundImage = `url('${secureUrl}')`;
-                imgElement.style.backgroundSize = 'contain';
-                imgElement.style.backgroundPosition = 'center';
-                if (placeholderDiv) placeholderDiv.style.opacity = '0';
-            };
-            
-            img.onerror = function() {
-                if (placeholderDiv) {
-                    placeholderDiv.style.opacity = '1';
-                    placeholderDiv.innerHTML = productIcon;
-                }
-            };
-            img.src = secureUrl;
-        }
+  document.getElementById("adminResetBtn").addEventListener("click", () => {
+    if (!confirm("Effacer toutes vos modifications et restaurer la liste d'origine ? (Recharge la page)")) return;
+    localStorage.removeItem(STORAGE_KEY);
+    location.reload();
+  });
 
-        function displayProducts() {
-            const productsGrid = document.getElementById('productsGrid');
-            productsGrid.innerHTML = '';
-            
-            if (filteredProducts.length === 0) {
-                productsGrid.innerHTML = '<p style="text-align: center; padding: 40px;">Aucun produit ne correspond à vos critères.</p>';
-                return;
-            }
-            
-            filteredProducts.forEach(product => {
-                const productCard = document.createElement('div');
-                productCard.className = 'product-card';
-                const icon = product.icon || '📦';
-                
-                productCard.innerHTML = `
-                    <div class="product-image" id="img-${product.id}" data-product-id="${product.id}">
-                        <div class="image-placeholder">${icon}</div>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-brand">${product.marque}</div>
-                        <div class="product-name">${product.nom}</div>
-                        <div class="product-description">${product.description.substring(0, 80)}${product.description.length > 80 ? '...' : ''}</div>
-                        <button class="whatsapp-btn" data-product-id="${product.id}">
-                            <i class="fab fa-whatsapp"></i> Contact WhatsApp
-                        </button>
-                    </div>
-                `;
-                
-                productsGrid.appendChild(productCard);
-                
-                const imgElement = document.getElementById(`img-${product.id}`);
-                const placeholderDiv = imgElement.querySelector('.image-placeholder');
-                
-                imgElement.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    openModal(product);
-                });
-                
-                const whatsappBtn = productCard.querySelector('.whatsapp-btn');
-                whatsappBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    contactWhatsApp(product);
-                });
-                
-                if (product.image && product.image.trim() !== '') {
-                    loadImageWithFallback(imgElement, product.image, icon, placeholderDiv);
-                }
-            });
-        }
+  document.getElementById("adminCloseBtn").addEventListener("click", () => {
+    adminPanel.classList.remove("active");
+  });
 
-        function filterProducts() {
-            filteredProducts = produits.filter(product => {
-                const matchesCategory = !currentCategory || product.categorie === currentCategory;
-                const matchesMarque = !currentMarque || product.marque === currentMarque;
-                const matchesSearch = !currentSearch || 
-                    product.nom.toLowerCase().includes(currentSearch) ||
-                    product.description.toLowerCase().includes(currentSearch) ||
-                    product.marque.toLowerCase().includes(currentSearch);
-                return matchesCategory && matchesMarque && matchesSearch;
-            });
-            displayProducts();
-            updateMarqueButtons();
-        }
+  document.getElementById("adminLoginBtn").addEventListener("click", () => {
+    if (adminPass.value === ADMIN_PASSWORD) {
+      adminPass.value = "";
+      openAdmin();
+    } else {
+      alert("Mot de passe incorrect");
+    }
+  });
+  adminPass.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") document.getElementById("adminLoginBtn").click();
+  });
 
-        function updateMarqueButtons() {
-            document.querySelectorAll('.marque-btn').forEach(btn => {
-                if (btn.textContent === 'Toutes' && !currentMarque) btn.classList.add('active');
-                else if (btn.textContent === currentMarque) btn.classList.add('active');
-                else btn.classList.remove('active');
-            });
-        }
+  // Open admin: Ctrl+Shift+A OR URL contains #admin
+  document.addEventListener("keydown", (e) => {
+    if (e.ctrlKey && e.shiftKey && (e.key === "A" || e.key === "a")) {
+      e.preventDefault();
+      adminLogin.classList.add("active");
+      setTimeout(() => adminPass.focus(), 50);
+    }
+    if (e.key === "Escape") {
+      adminLogin.classList.remove("active");
+      adminPanel.classList.remove("active");
+    }
+  });
+  if (location.hash === "#admin") {
+    adminLogin.classList.add("active");
+    setTimeout(() => adminPass.focus(), 100);
+  }
+</script>
 
-        function createMarqueButtons() {
-            const marquesGrid = document.getElementById('marquesGrid');
-            marquesGrid.innerHTML = '';
-            const marques = [...new Set(produits.map(p => p.marque))].sort();
-            
-            const allMarquesBtn = document.createElement('button');
-            allMarquesBtn.className = 'marque-btn active';
-            allMarquesBtn.textContent = 'Toutes';
-            allMarquesBtn.onclick = () => {
-                currentMarque = '';
-                filterProducts();
-            };
-            marquesGrid.appendChild(allMarquesBtn);
-            
-            marques.forEach(marque => {
-                const marqueBtn = document.createElement('button');
-                marqueBtn.className = 'marque-btn';
-                marqueBtn.textContent = marque;
-                marqueBtn.onclick = () => {
-                    currentMarque = marque;
-                    filterProducts();
-                };
-                marquesGrid.appendChild(marqueBtn);
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            displayProducts();
-            createMarqueButtons();
-            
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    currentCategory = btn.dataset.category;
-                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    filterProducts();
-                });
-            });
-            
-            let searchTimeout;
-            const searchInput = document.getElementById('searchInput');
-            searchInput.addEventListener('input', (e) => {
-                clearTimeout(searchTimeout);
-                searchTimeout = setTimeout(() => {
-                    currentSearch = e.target.value.toLowerCase().trim();
-                    filterProducts();
-                }, 300);
-            });
-            
-            document.querySelector('.cta-button').addEventListener('click', (e) => {
-                e.preventDefault();
-                document.querySelector('#products').scrollIntoView({ behavior: 'smooth' });
-            });
-            
-            const modal = document.getElementById('productModal');
-            const closeBtn = document.querySelector('.close-modal');
-            const modalWhatsapp = document.getElementById('modalWhatsappBtn');
-            
-            closeBtn.onclick = closeModal;
-            modalWhatsapp.onclick = () => {
-                if (currentSelectedProduct) {
-                    contactWhatsApp(currentSelectedProduct);
-                }
-                closeModal();
-            };
-            
-            window.onclick = (event) => {
-                if (event.target === modal) closeModal();
-            };
-        });
-    </script>
 </body>
 </html>
