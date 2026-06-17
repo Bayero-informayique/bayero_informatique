@@ -322,6 +322,41 @@
     nav a { margin: 0 6px; font-size: 0.85rem; }
   }
 
+  /* ===== GALLERY (public) ===== */
+  .thumbs {
+    display: flex; gap: 6px; padding: 8px 12px 0; flex-wrap: wrap;
+  }
+  .thumbs img {
+    width: 44px; height: 44px; object-fit: cover; border-radius: 6px;
+    border: 2px solid transparent; cursor: pointer; background: #e2e8f0;
+    transition: border-color .15s, transform .15s;
+  }
+  .thumbs img:hover { transform: scale(1.05); }
+  .thumbs img.active { border-color: var(--accent); }
+
+  /* ===== GALLERY (admin) ===== */
+  .gallery-strip {
+    display: flex; gap: 6px; flex-wrap: wrap; align-items: center;
+    padding: 4px 0;
+  }
+  .gallery-thumb {
+    position: relative; width: 54px; height: 54px; border-radius: 6px;
+    overflow: hidden; border: 2px solid #cbd5e1; cursor: pointer;
+    background: #e2e8f0;
+  }
+  .gallery-thumb.main { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(229,57,53,0.25); }
+  .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; display:block; }
+  .gallery-thumb .thumb-del {
+    position: absolute; top: 1px; right: 1px; width: 18px; height: 18px;
+    border-radius: 50%; background: rgba(220,38,38,0.95); color: #fff;
+    border: none; font-size: 12px; line-height: 1; cursor: pointer;
+    display:flex; align-items:center; justify-content:center; padding: 0;
+  }
+  .gallery-add {
+    width: 54px; height: 54px; border: 2px dashed #94a3b8; border-radius: 6px;
+    background: #f8fafc; color: #475569; cursor: pointer; font-size: 1.2rem;
+  }
+
   /* ===== ADMIN PANEL ===== */
   .admin-overlay {
     position: fixed; inset: 0; background: rgba(0,0,0,0.7);
@@ -668,6 +703,12 @@
     products.length = 0;
     saved.forEach(p => products.push(p));
   }
+  // Normalize: ensure every product has an `images` array (gallery)
+  products.forEach(p => {
+    if (!Array.isArray(p.images)) p.images = [];
+    if (p.image && !p.images.includes(p.image)) p.images.unshift(p.image);
+    if (!p.image && p.images.length > 0) p.image = p.images[0];
+  });
 
   const grid = document.getElementById("products");
   const filters = document.getElementById("filters");
@@ -692,14 +733,30 @@
       const link = `https://wa.me/${WHATSAPP}?text=${msg}`;
       const card = document.createElement("div");
       card.className = "product";
+      const imgs = (p.images && p.images.length) ? p.images : (p.image ? [p.image] : []);
+      const main = p.image || imgs[0] || "";
+      const thumbsHtml = imgs.length > 1 ? `
+        <div class="thumbs">
+          ${imgs.map((u, idx) => `<img src="${u}" alt="" loading="lazy" class="${u===main?'active':''}" data-src="${u}" onerror="this.style.display='none'">`).join("")}
+        </div>` : "";
       card.innerHTML = `
-        <div class="product-img"><img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.parentElement.innerHTML='<span style=&quot;font-size:4rem&quot;>'+'${p.icon}'+'</span>'"></div>
+        <div class="product-img"><img class="main-img" src="${main}" alt="${p.name}" loading="lazy" onerror="this.parentElement.innerHTML='<span style=&quot;font-size:4rem&quot;>'+'${p.icon}'+'</span>'"></div>
+        ${thumbsHtml}
         <div class="product-body">
           <h3>${p.name}</h3>
           <p>${p.desc}</p>
           <a href="${link}" target="_blank" class="btn btn-wa">💬 Commander</a>
         </div>
       `;
+      // Thumb click swaps main image
+      card.querySelectorAll(".thumbs img").forEach(t => {
+        t.addEventListener("click", () => {
+          const mainImg = card.querySelector(".main-img");
+          if (mainImg) mainImg.src = t.dataset.src;
+          card.querySelectorAll(".thumbs img").forEach(x => x.classList.remove("active"));
+          t.classList.add("active");
+        });
+      });
       grid.appendChild(card);
     });
   }
@@ -761,14 +818,24 @@
       if (q && !p.name.toLowerCase().includes(q) && !p.cat.toLowerCase().includes(q)) return;
       const row = document.createElement("div");
       row.className = "admin-row";
+      const imgs = Array.isArray(p.images) ? p.images : [];
+      const galleryHtml = imgs.map((u, idx) => `
+        <div class="gallery-thumb ${u===p.image?'main':''}" data-action="setmain" data-idx="${idx}" title="${u===p.image?'Image principale':'Cliquez pour définir comme principale'}">
+          <img src="${u}" alt="" onerror="this.style.opacity=0.3">
+          <button class="thumb-del" data-action="thumb-del" data-idx="${idx}" title="Supprimer">×</button>
+        </div>`).join("");
       row.innerHTML = `
-        <img src="${p.image || ''}" alt="" onerror="this.style.background='#fee';this.src='';" title="Cliquez pour changer">
+        <img src="${p.image || ''}" alt="" onerror="this.style.background='#fee';this.src='';" title="Image principale">
         <div class="col-name"><input type="text" value="${(p.name||'').replace(/"/g,'&quot;')}" data-field="name" placeholder="Nom"></div>
         <div class="col-cat"><input type="text" value="${(p.cat||'').replace(/"/g,'&quot;')}" data-field="cat" placeholder="Catégorie" list="catList"></div>
         <div class="col-desc"><textarea data-field="desc" placeholder="Description">${p.desc||''}</textarea></div>
         <div class="img-controls">
-          <input type="text" data-field="image" value="${(p.image||'').replace(/"/g,'&quot;')}" placeholder="URL image">
-          <button data-action="upload">📁 Téléverser</button>
+          <div class="gallery-strip">
+            ${galleryHtml}
+            <button class="gallery-add" data-action="add-img" title="Ajouter une image (fichier)">＋</button>
+          </div>
+          <input type="text" data-field="add-url" value="" placeholder="+ Ajouter URL puis Entrée">
+          <small style="color:#64748b;font-size:0.7rem">Clic = principale • × = supprimer</small>
         </div>
         <button class="btn-del" data-action="delete">🗑️</button>
       `;
@@ -794,34 +861,64 @@
     const i = +row.dataset.index;
     const field = e.target.dataset.field;
     if (!field || !products[i]) return;
+    if (field === "add-url") return; // handled on Enter
     products[i][field] = e.target.value;
-    if (field === "image") {
-      const img = row.querySelector("img");
-      if (img) img.src = e.target.value;
-    }
     saveProducts();
     render();
+  });
+
+  // Add image by URL on Enter
+  adminBody.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter") return;
+    if (e.target.dataset.field !== "add-url") return;
+    e.preventDefault();
+    const row = e.target.closest(".admin-row");
+    const i = +row.dataset.index;
+    const url = e.target.value.trim();
+    if (!url || !products[i]) return;
+    products[i].images = products[i].images || [];
+    if (!products[i].images.includes(url)) products[i].images.push(url);
+    if (!products[i].image) products[i].image = url;
+    e.target.value = "";
+    saveProducts(); render(); renderAdmin();
+    flashStatus("🖼️ Image ajoutée à la galerie");
   });
 
   adminBody.addEventListener("click", (e) => {
     const row = e.target.closest(".admin-row");
     if (!row) return;
     const i = +row.dataset.index;
-    if (e.target.tagName === "IMG") {
-      editingImgIndex = i;
-      adminImgFile.click();
+    const p = products[i];
+    if (!p) return;
+    const action = e.target.dataset.action || e.target.closest("[data-action]")?.dataset.action;
+    const idx = +(e.target.dataset.idx ?? e.target.closest("[data-idx]")?.dataset.idx ?? -1);
+
+    if (action === "thumb-del") {
+      e.stopPropagation();
+      p.images = p.images || [];
+      const removed = p.images.splice(idx, 1)[0];
+      if (p.image === removed) p.image = p.images[0] || "";
+      saveProducts(); render(); renderAdmin();
+      flashStatus("🗑️ Image retirée");
+      return;
     }
-    const action = e.target.dataset.action;
-    if (action === "upload") {
+    if (action === "setmain") {
+      if (idx >= 0 && p.images && p.images[idx]) {
+        p.image = p.images[idx];
+        saveProducts(); render(); renderAdmin();
+        flashStatus("⭐ Image principale définie");
+      }
+      return;
+    }
+    if (action === "add-img") {
       editingImgIndex = i;
       adminImgFile.click();
+      return;
     }
     if (action === "delete") {
-      if (confirm(`Supprimer "${products[i].name}" ?`)) {
+      if (confirm(`Supprimer "${p.name}" ?`)) {
         products.splice(i, 1);
-        saveProducts();
-        render();
-        renderAdmin();
+        saveProducts(); render(); renderAdmin();
         flashStatus("🗑️ Produit supprimé");
       }
     }
@@ -836,11 +933,12 @@
     }
     const reader = new FileReader();
     reader.onload = () => {
-      products[editingImgIndex].image = reader.result;
-      saveProducts();
-      render();
-      renderAdmin();
-      flashStatus("✅ Image mise à jour");
+      const p = products[editingImgIndex];
+      p.images = p.images || [];
+      p.images.push(reader.result);
+      if (!p.image) p.image = reader.result;
+      saveProducts(); render(); renderAdmin();
+      flashStatus("✅ Image ajoutée à la galerie");
     };
     reader.readAsDataURL(file);
     adminImgFile.value = "";
