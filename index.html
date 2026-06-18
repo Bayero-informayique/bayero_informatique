@@ -580,7 +580,7 @@
     </div>
     <div class="admin-toolbar">
       <button class="btn-add" id="adminAddBtn">➕ Ajouter un produit</button>
-      <button class="btn-export" id="adminExportBtn">⬇️ Exporter (JSON)</button>
+      <button class="btn-export" id="adminExportBtn">⬇️ Télécharger produits.json</button>
       <button id="adminImportBtn">⬆️ Importer (JSON)</button>
       <input type="file" id="adminImportFile" accept="application/json" style="display:none">
       <button class="btn-reset" id="adminResetBtn">🔄 Réinitialiser</button>
@@ -687,7 +687,7 @@
 
   // ===== Apply admin overrides from localStorage =====
   const STORAGE_KEY = "bayero_products_v1";
-  const ADMIN_PASSWORD = "bayero2026@1613"; // CHANGEZ ce mot de passe
+  const ADMIN_PASSWORD = "bayero2026"; // CHANGEZ ce mot de passe
   function loadOverrides() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -698,17 +698,53 @@
   function saveProducts() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
   }
+  // URL du fichier produits.json publié sur GitHub (même dossier que ce fichier HTML).
+  // Sur GitHub Pages, le chemin relatif "produits.json" pointe automatiquement vers
+  // https://<user>.github.io/<repo>/produits.json
+  const REMOTE_PRODUCTS_URL = "produits.json";
+
+  function normalizeProducts() {
+    products.forEach(p => {
+      if (!Array.isArray(p.images)) p.images = [];
+      if (p.image && !p.images.includes(p.image)) p.images.unshift(p.image);
+      if (!p.image && p.images.length > 0) p.image = p.images[0];
+    });
+  }
+
+  function applyList(list) {
+    if (!Array.isArray(list) || list.length === 0) return;
+    products.length = 0;
+    list.forEach(p => products.push(p));
+    normalizeProducts();
+  }
+
+  // 1) Appliquer immédiatement les overrides locaux (admin non publié) s'ils existent
   const saved = loadOverrides();
   if (saved && Array.isArray(saved) && saved.length > 0) {
-    products.length = 0;
-    saved.forEach(p => products.push(p));
+    applyList(saved);
+  } else {
+    normalizeProducts();
   }
-  // Normalize: ensure every product has an `images` array (gallery)
-  products.forEach(p => {
-    if (!Array.isArray(p.images)) p.images = [];
-    if (p.image && !p.images.includes(p.image)) p.images.unshift(p.image);
-    if (!p.image && p.images.length > 0) p.image = p.images[0];
-  });
+
+  // 2) Charger produits.json depuis GitHub en arrière-plan.
+  //    - Si l'admin n'a PAS d'overrides locaux : on remplace par la version publiée.
+  //    - Si l'admin a des overrides locaux : on respecte ses modifications en cours.
+  function loadRemoteProducts() {
+    fetch(REMOTE_PRODUCTS_URL, { cache: "no-store" })
+      .then(r => r.ok ? r.json() : null)
+      .then(remote => {
+        if (!remote || !Array.isArray(remote) || remote.length === 0) return;
+        const hasLocal = !!loadOverrides();
+        if (!hasLocal) {
+          applyList(remote);
+          if (typeof render === "function") render();
+          if (typeof renderAdmin === "function") renderAdmin();
+        }
+      })
+      .catch(() => { /* fichier absent en local : on garde la liste par défaut */ });
+  }
+  // Déclenché après le premier render (voir plus bas)
+  window.addEventListener("load", loadRemoteProducts);
 
   const grid = document.getElementById("products");
   const filters = document.getElementById("filters");
@@ -965,7 +1001,7 @@
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `bayero-produits-${new Date().toISOString().slice(0,10)}.json`;
+    a.download = `produits.json`;
     a.click();
     URL.revokeObjectURL(url);
     flashStatus("⬇️ Fichier JSON téléchargé");
